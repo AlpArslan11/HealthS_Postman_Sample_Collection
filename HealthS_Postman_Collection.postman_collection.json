@@ -1,0 +1,5191 @@
+{
+	"info": {
+		"_postman_id": "5cf2700f-9eb0-4025-bf40-9424229894b6",
+		"name": "HealthS_Postman_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24043978"
+	},
+	"item": [
+		{
+			"name": "Auser-jwt-controller",
+			"item": [
+				{
+					"name": "User-jwt-Negative Test",
+					"item": [
+						{
+							"name": "jwtToken-InvalidUserName",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------ POST-jwtToken-InvalidUserName -----------\")\r",
+											"pm.collectionVariables.set(\"invalidRandom_UserName_alp\", pm.variables.replaceIn(\"{{$randomFirstName}}\"));\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code Test\r",
+											"pm.test(\"Status code is 401 Unauthorized\",  () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"//Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -id_token-, -title-,-message-, -status-, -detail- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(pm.response).to.not.have.property(\"id_token\");\r",
+											"       pm.expect(response.title).to.eql(\"Unauthorized\");\r",
+											"       pm.expect(response.message).to.eql(\"error.http.401\");\r",
+											"       pm.expect(response.status).to.eql(401);\r",
+											"       pm.expect(response.detail).to.eql(\"Bad credentials\");  \r",
+											"  });\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"{{password_alp}}\",\r\n  \"rememberMe\": true,\r\n  \"username\": \"{{invalidRandom_UserName_alp}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/authenticate",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "jwtToken-Invalid_Pass",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code validation\r",
+											"pm.test(\"Status code is 401 Unauthorized\",  () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"  //Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -id_token-, -title-,-message-, -status-, -detail- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(response).to.not.have.property(\"id_token\");\r",
+											"       pm.expect(response.title).to.eql(\"Unauthorized\");\r",
+											"       pm.expect(response.message).to.eql(\"error.http.401\");\r",
+											"       pm.expect(response.status).to.eql(401);\r",
+											"       pm.expect(response.detail).to.eql(\"Bad credentials\");  \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"----------- POST-jwtToken-Invalid_Pass -------\")\r",
+											"pm.collectionVariables.set(\"invalidRandom_Password_alp\", pm.variables.replaceIn(\"{{$randomPassword}}\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"{{invalidRandom_Password_alp}}\",\r\n  \"rememberMe\": true,\r\n  \"username\": \"{{username_alp}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/authenticate",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "jwtToken-NoPass",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code Validation\r",
+											"pm.test(\"Status code is 400 Bad Request\",  () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Validation\r",
+											"pm.test(\"Content-Type header is 'application/json'\", ()=>  {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"  //Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -id_token-, -title-,-message-, -status-,-response password text- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(pm.response).to.not.have.property(\"id_token\");\r",
+											"       pm.expect(response.title).to.eql(\"Method argument not valid\");\r",
+											"       pm.expect(response.message).to.eql(\"error.validation\");\r",
+											"       pm.expect(response.status).to.eql(400);\r",
+											"       pm.expect(pm.response.text()).to.include(\"password\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------POST- jwtToken-NoPass ----------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"\",\r\n  \"rememberMe\": true,\r\n  \"username\": \"{{username_alp}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/authenticate",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "jwtToken-NoUsername",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code Validation\r",
+											"pm.test(\"Status code is 400 Bad Request\",() => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Validation\r",
+											"pm.test(\"Content-Type header is 'application/json'\",()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"   //Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -id_token-, -title-,-message-, -status-,-response password text- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(pm.response).to.not.have.property(\"id_token\");\r",
+											"       pm.expect(response.title).to.eql(\"Method argument not valid\");\r",
+											"       pm.expect(response.message).to.eql(\"error.validation\");\r",
+											"       pm.expect(response.status).to.eql(400);\r",
+											"       pm.expect(pm.response.text()).to.include(\"username\");\r",
+											"  });\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"})  "
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"----------- POST-jwtToken-NoUsername ---------- \")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"{{password_alp}}\",\r\n  \"rememberMe\": true,\r\n  \"username\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/authenticate",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "jwtToken-NoBody",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code Validation",
+											"pm.test(\"Status code is 400 Bad Request\",  () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"// Content-Type Validation",
+											"pm.test(\"Content-Type header is 'application/json'\", ()=> {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");",
+											"});",
+											"",
+											" //Response Body Field-Property Test",
+											"pm.test(\"Response fields -id_token-, -title-,-message-, -status-, -detail- validation\", () => {",
+											"    const response = pm.response.json();",
+											"       pm.expect(pm.response).to.not.have.property(\"id_token\");",
+											"       pm.expect(response.title).to.eql(\"Bad Request\");",
+											"       pm.expect(response.message).to.eql(\"error.http.400\");",
+											"       pm.expect(response.status).to.eql(400);",
+											"       pm.expect(response.detail).to.include(\"Required request body is missing\");",
+											"  });",
+											"",
+											"pm.test(\"Body is a valid Json\",()=>{",
+											"    pm.response.to.be.json",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"--------------- POST-jwtToken-NoBody ------------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/authenticate",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "jwtToken",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------POST-jwtToken ------------- \")\r",
+									"pm.collectionVariables.set(\"username_alp\",\"adminAsd\")\r",
+									"pm.collectionVariables.set(\"password_alp\",\"123456789\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"console.log(response.id_token);\r",
+									"\r",
+									"pm.environment.set(\"token_alp\", response.id_token);\r",
+									"\r",
+									"//Status Code Validation\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type Validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// Response body id_token property validation\r",
+									"pm.test(\"Response body has id_token property\", () => {\r",
+									"    pm.expect(response).to.have.property(\"id_token\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"{{password_alp}}\",\r\n  \"rememberMe\": true,\r\n  \"username\": \"{{username_alp}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/authenticate",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Physcian",
+			"item": [
+				{
+					"name": "Physcian - Negative Tests",
+					"item": [
+						{
+							"name": "Physicians_NoAuth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test(\"Status code is 401 Unauthorized\",  () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Validation\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											" //Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -title-,-message-, -status-, -detail- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(response.title).to.eql(\"Unauthorized\");\r",
+											"       pm.expect(response.message).to.eql(\"error.http.401\");\r",
+											"       pm.expect(response.status).to.eql(401);\r",
+											"       pm.expect(response.detail).to.include(\"Full authentication is required to access this resource\");\r",
+											"  });\r",
+											"\r",
+											"// Respnse Body doesn't return any physician property\r",
+											"pm.test(\"Response body does not contain phsician properties\", ()=> {\r",
+											"    pm.expect(response).to.not.have.property(\"id\");\r",
+											"    pm.expect(response).to.not.have.property(\"firstName\");\r",
+											"    pm.expect(response).to.not.have.property(\"user\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200 ms\", ()=> {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"----------GET-Physicians_NoAuth REQUEST -----------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/physicians",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_InvPAGE_queryParams_for_Physician",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r",
+											"// !! YOU CAN SET INVALID PAGE PARAMS FROM PRE-REQUEST\r",
+											"console.log(\"---------- GET-SET_InvPAGE_queryParams_for_Physician REQUEST ------------\")\r",
+											"\r",
+											"\r",
+											"const inv_pageParams_arr = \"-1,73,90,x,abc,*,1234567890123456\".split(\",\"); //SET YOUR INVALID PAGE PARAMS HERE\r",
+											"\r",
+											"pm.variables.set(\"inv_pageParams\",inv_pageParams_arr) // to call and use params from next request, created a variable\r",
+											"\r",
+											"console.log(\"Invalid page params ready to use : \" ,pm.variables.get(\"inv_pageParams\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r",
+											"// !! YOU CAN SET INVALID PAGE PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"\r",
+											"\r",
+											"//is not a test. just to make notification\r",
+											"pm.test(\"!!!! - INVALID PAGE PARAMS ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"inv_pageParams\").length).to.be.above(0);\r",
+											"}); \r",
+											"\r",
+											"console.log(\"Invalid page params set as \", pm.variables.get(\"inv_pageParams\"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// RUN FROM COLLECTION / FOLDER RUNNER \r\n// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r\n// !! YOU CAN SET INVALID PAGE PARAMS FROM PRE-REQUEST\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/physicians",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvPAGE_queryParams_for_Physician",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"console.log(\"--------------- GET-(M)_InvPAGE_queryParams_for_Physician ---------------\")\r",
+											"const inv_pageParams = pm.variables.get(\"inv_pageParams\")\r",
+											"\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid page params to verify...\")\r",
+											"console.log(\"invalid page params are : \" , inv_pageParams)\r",
+											"\r",
+											"pm.variables.set('current_param',inv_pageParams.shift()) // takeS the first element in array and return it.\r",
+											"console.log(\"current_param : \"+ pm.variables.get(\"current_param\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0\r",
+											"if(Array.isArray(inv_pageParams) && inv_pageParams.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvPAGE_queryParams_for_Physician\") // defining next request to run again with different data\r",
+											"} else{\r",
+											"postman.setNextRequest(null);   // stop executing current request \r",
+											"postman.setNextRequest(\"SET_invSIZE_queryParams_for_Physician\") //next request to tun\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST \r",
+											"\r",
+											"\r",
+											"//Status Code Test\r",
+											"pm.test(\"Response status code should not be 200\", ()=> {\r",
+											"  pm.response.not.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"// verifies request doesn't return id_token property\r",
+											"    const response = pm.response.json();\r",
+											"pm.test(\"Response body should not have -id-, -user-, -firstName- fields\", ()=> {\r",
+											"    pm.expect(pm.response).to.not.have.property(\"id\");\r",
+											"    pm.expect(pm.response).to.not.have.property(\"user\");\r",
+											"    pm.expect(pm.response).to.not.have.property(\"firstName\");\r",
+											"});\r",
+											"\r",
+											"// Request URL contains \"page\" query Test \r",
+											"pm.test(\"Page parameter is correctly set in the request URL\", () => {\r",
+											"    pm.expect(pm.request.url.query.get(\"page\")).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(250);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/physicians?page={{current_param}}",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"physicians"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "{{current_param}}"
+										},
+										{
+											"key": "size",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_invSIZE_queryParams_for_Physician",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID SIZE PARAMS\r",
+											"// !! YOU CAN SET INVALID SIZE PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"console.log(\"---------- GET-SET_invSIZE_queryParams_for_Physician -----------\")\r",
+											"\r",
+											"\r",
+											"const inv_sizeParams_arr = \"-1,0,21,xbc,(,101,454546564\".split(\",\"); //SET YOUR INVALID PAGE PARAMS HERE\r",
+											"\r",
+											"pm.variables.set(\"inv_sizeParams\",inv_sizeParams_arr) // to call and use params from next request, created a variable\r",
+											"\r",
+											"console.log(\"Invalid size params ready to use : \" , pm.variables.get(\"inv_sizeParams\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"//is not a test. just to make notification\r",
+											"pm.test(\"!!!! - INVALID PAGE PARAMS ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"inv_sizeParams\").length).to.be.above(0);\r",
+											"}); \r",
+											"\r",
+											"console.log(\"Invalid page params set as \", pm.variables.get(\"inv_sizeParams\"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// RUN FROM COLLECTION / FOLDER RUNNER \r\n// !! THIS REQUEST IS JUST TO CREATE INVALID SIZE PARAMS\r\n// !! YOU CAN SET INVALID SIZE PARAMS FROM PRE-REQUEST\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/physicians",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvSIZE_queryParams_for_Physician",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"console.log(\"------------ GET-(M)_InvSIZE_queryParams_for_Physician --------------\")\r",
+											"\r",
+											"const inv_sizeParams = pm.variables.get(\"inv_sizeParams\")\r",
+											"\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid size params to verify...\")\r",
+											"console.log(\"invalid size params are : \" , inv_sizeParams)\r",
+											"\r",
+											"pm.variables.set('current_size',inv_sizeParams.shift()) // take the first element in array and return it.\r",
+											"console.log(\"current_size : \"+ pm.variables.get(\"current_size\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0 \r",
+											"if(Array.isArray(inv_sizeParams) && inv_sizeParams.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvSIZE_queryParams_for_Physician\") // defining next request to run again with different physician IDs -\r",
+											"} else{\r",
+											"postman.setNextRequest(null);   // stop after executing current request -\r",
+											"postman.setNextRequest(\"SET_InvSPECIALITY_data_for_physician\") //next request to tun\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code Test\r",
+											"pm.test('Status code should not be 200 OK', () => {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Validation\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"const physicianIDarr = response.map(physician => physician.id) //create a container for physicians ids\r",
+											"console.log(\"Number of physician in response body  : \" , physicianIDarr.length)\r",
+											"\r",
+											"var isNotNumber = isNaN(pm.request.url.query.get(\"size\"));// size is number or not\r",
+											"var isNegative = pm.request.url.query.get(\"size\") <= 0; //is it negative \r",
+											"    // it should not be 200 if query parameter contains letters or it is <0\r",
+											"if (isNotNumber || isNegative) {\r",
+											"    pm.test(\"Status code should not be 200 if size query param < 0 or it contains letters.\", () => {\r",
+											"        pm.expect(response.to.not.have.status(200));\r",
+											"        })\r",
+											"};\r",
+											"\r",
+											"if (pm.request.url.query.get(\"size\") > 89) { // \r",
+											"  pm.test(\"If size param is greater than 89, number of physician in response should be 89\", () => {\r",
+											"    pm.expect(physicianIDarr.length).to.equal(89);\r",
+											"        });\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/physicians?size={{current_size}}",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"physicians"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "{{current_size}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_InvSPECIALITY_data_for_physician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"//is not a test. just to make notification\r",
+											"\r",
+											"pm.test(\"!!!! - INVALID SPECIALTY DATA ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"inv_Speciality\").length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"console.log(\"Invalid Speciality Data set as \", pm.variables.get(\"inv_Speciality\"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE NEXT REQUEST\r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID SPECIALITY DATA \r",
+											"\r",
+											"console.log(\"------------PUT-SET_InvSPECIALITY_data_for_physician ------------ \")\r",
+											"\r",
+											"const invalid_SpecialityArr = \"OBSTETRIC,, ,surgery,abc,*,123456\".split(\",\"); //SET YOUR INVALID DATA FROM HERE\r",
+											"\r",
+											"pm.variables.set(\"inv_Speciality\",invalid_SpecialityArr) // to call and use params from next request, created a variable\r",
+											"\r",
+											"console.log(\"Invalid Speciality Data ready to use : \" ,pm.variables.get(\"inv_Speciality\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//PUT BODY NOT TO THROW BAD REQUEST\r\n{\r\n    \"createdBy\": \"postman_team06\",\r\n    \"createdDate\": \"2024-02-12T13:24:17.081449Z\",\r\n    \"id\": 91612,\r\n    \"firstName\": \"jane\",\r\n    \"lastName\": \"deneme\",\r\n    \"birthDate\": \"2003-02-11T22:00:00Z\",\r\n    \"phone\": \"5520856395\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-09T19:42:11.281761Z\",\r\n        \"id\": 90965,\r\n        \"login\": \"postman_team06\",\r\n        \"firstName\": \"jane\",\r\n        \"lastName\": \"austin\",\r\n        \"email\": \"petros.preston@farmoaks.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"009-88-7043\"\r\n    },\r\n    \"speciality\": \"OPHTHALMOLOGY\",\r\n    \"appointments\": null,\r\n    \"country\": {\r\n        \"id\": 24331,\r\n        \"name\": \"turkiye\"\r\n    },\r\n    \"cstate\": null,\r\n    \"examFee\": 90.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/physicians",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvSPECIALITY_data_for_physician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"\r",
+											"// status code test\r",
+											"pm.test(\"Status code is 400 Bad Request\",  ()=> {\r",
+											"    pm.response.to.have.status(400); \r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", ()=> {\r",
+											"    pm.expect(response).to.have.property('type');\r",
+											"    pm.expect(response).to.have.property('title');\r",
+											"    pm.expect(response).to.have.property('status');\r",
+											"    pm.expect(response).to.have.property('detail');\r",
+											"    pm.expect(response).to.have.property('path');\r",
+											"    pm.expect(response).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Is the detail in error response body as expected', () => {\r",
+											"    pm.expect(response.detail).to.include('Cannot deserialize value of type');\r",
+											"})\r",
+											"\r",
+											"pm.test('Is message as expected', () => {\r",
+											"    pm.expect(response.message).to.eql('error.http.400');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE PREVIUS REQUEST\r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"console.log(\"------------PUT-(M)_InvSPECIALITY_data_for_physician ---------------\")\r",
+											"\r",
+											"const inv_Specialities = pm.variables.get(\"inv_Speciality\")\r",
+											"\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid Speciality data to verify...\")\r",
+											"console.log(\"invalid Speciality data are : \" , inv_Specialities)\r",
+											"\r",
+											"pm.variables.set('current_Speciality',inv_Specialities.shift()) // take the first element in array and return it. \r",
+											"console.log(\"current_Speciality : \"+ pm.variables.get(\"current_Speciality\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0\r",
+											"if(Array.isArray(inv_Specialities) && inv_Specialities.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvSPECIALITY_data_for_physician\") // defining next request to run again with different speciality \r",
+											"} else{\r",
+											"postman.setNextRequest(null);   // stop after executing current request -\r",
+											"postman.setNextRequest(\"SET_InvADRESS_Data_for_Physician\") // next request to run\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"createdBy\": \"postman_team06\",\r\n    \"createdDate\": \"2024-02-12T13:24:17.081449Z\",\r\n    \"id\": 91612,\r\n    \"firstName\": \"jane\",\r\n    \"lastName\": \"deneme\",\r\n    \"birthDate\": \"2003-02-11T22:00:00Z\",\r\n    \"phone\": \"5520856395\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-09T19:42:11.281761Z\",\r\n        \"id\": 90965,\r\n        \"login\": \"postman_team06\",\r\n        \"firstName\": \"jane\",\r\n        \"lastName\": \"austin\",\r\n        \"email\": \"petros.preston@farmoaks.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"009-88-7043\"\r\n    },\r\n    \"speciality\": \"{{current_Speciality}}\",\r\n    \"appointments\": null,\r\n    \"country\": {\r\n        \"id\": 24331,\r\n        \"name\": \"turkiye\"\r\n    },\r\n    \"cstate\": null,\r\n    \"examFee\": 90.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/physicians",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_InvADRESS_Data_for_Physician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"//is not a test. just to make notification\r",
+											"pm.test(\"!!!! - INVALID ADRESS DATA ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"inv_Adress\").length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"console.log(\"Invalid Adress Data set as \", pm.variables.get(\"inv_Adress\"))\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE NEXT REQUEST\r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID DATA \r",
+											"\r",
+											"console.log(\"------------PUT-SET_InvADRESS_Data_for_Physician ----------------\")\r",
+											"\r",
+											"\r",
+											"const invalid_AdressArr = \"123,%%%%++++$$$$$,, \".split(); //set your ınv data from here\r",
+											"\r",
+											"pm.variables.set(\"inv_Adress\",invalid_AdressArr) // to call and use params from next request, created a variable\r",
+											"\r",
+											"console.log(\"Invalid Adress Data ready to use : \" ,pm.variables.get(\"inv_Adress\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"createdBy\": \"postman_team06\",\r\n    \"createdDate\": \"2024-02-12T13:24:17.081449Z\",\r\n    \"id\": 91612,\r\n    \"firstName\": \"jane\",\r\n    \"lastName\": \"deneme\",\r\n    \"birthDate\": \"2003-02-11T22:00:00Z\",\r\n    \"phone\": \"5520856395\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"asd 123 asdasd\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-09T19:42:11.281761Z\",\r\n        \"id\": 90965,\r\n        \"login\": \"postman_team06\",\r\n        \"firstName\": \"jane\",\r\n        \"lastName\": \"austin\",\r\n        \"email\": \"petros.preston@farmoaks.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"009-88-7043\"\r\n    },\r\n    \"speciality\": \"SURGERY\",\r\n    \"appointments\": null,\r\n    \"country\": {\r\n        \"id\": 24331,\r\n        \"name\": \"turkiye\"\r\n    },\r\n    \"cstate\": null,\r\n    \"examFee\": 90.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/physicians",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvADRESS_Data_for_Physician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"// status code test\r",
+											"pm.test(\"Status code should not be 200 OK\",  () => {\r",
+											"    pm.response.to.have.not.status(200); \r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", () => {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", () => {\r",
+											"    pm.expect(response).to.have.property('type');\r",
+											"    pm.expect(response).to.have.property('title');\r",
+											"    pm.expect(response).to.have.property('status');\r",
+											"    pm.expect(response).to.have.property('detail');\r",
+											"    pm.expect(response).to.have.property('path');\r",
+											"    pm.expect(response).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should not have the fields -id-, -firstName- and -lastName-\", () => {\r",
+											"    pm.expect(response).to.not.have.property('id');\r",
+											"    pm.expect(response).to.not.have.property('firstName');\r",
+											"    pm.expect(response).to.not.have.property('lastName');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"})\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE PREVIUS REQUEST\r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"\r",
+											"console.log(\"---------- PUT-(M)_InvADRESS_Data_for_Physician ---------------- \")\r",
+											"\r",
+											"\r",
+											"const inv_AdressArr = pm.variables.get(\"inv_Adress\")\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid Adress data to verify...\")\r",
+											"console.log(\"invalid Adress data are : \" , inv_AdressArr)\r",
+											"\r",
+											"pm.variables.set('current_Adress',inv_AdressArr.shift()) // take the first element in array and return it.\r",
+											"console.log(\"current_Adress is : \"+ pm.variables.get(\"current_Adress\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0\r",
+											"if(Array.isArray(inv_AdressArr) && inv_AdressArr.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvADRESS_Data_for_Physician\") // defining next request to run again with different adress\r",
+											"} else{\r",
+											"postman.setNextRequest(null);   // stop after executing current request -\r",
+											"postman.setNextRequest(\"SET_invEMAIL_Data_for_Physician\") // next request which is going to run \r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"createdBy\": \"postman_team06\",\r\n    \"createdDate\": \"2024-02-12T13:24:17.081449Z\",\r\n    \"id\": 91612,\r\n    \"firstName\": \"jane\",\r\n    \"lastName\": \"deneme\",\r\n    \"birthDate\": \"2003-02-11T22:00:00Z\",\r\n    \"phone\": \"5520856395\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"{{current_Adress}}\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-09T19:42:11.281761Z\",\r\n        \"id\": 90965,\r\n        \"login\": \"postman_team06\",\r\n        \"firstName\": \"jane\",\r\n        \"lastName\": \"austin\",\r\n        \"email\": \"petros.preston@farmoaks.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"009-88-7043\"\r\n    },\r\n    \"speciality\": \"SURGERY\",\r\n    \"appointments\": null,\r\n    \"country\": {\r\n        \"id\": 24331,\r\n        \"name\": \"turkiye\"\r\n    },\r\n    \"cstate\": null,\r\n    \"examFee\": 90.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/physicians",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_invEMAIL_Data_for_Physician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"//is not a test. just to make notification\r",
+											"pm.test(\"!!!! - INVALID EMAIL DATA ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"invalid_Emails\").length).to.be.above(0);\r",
+											"}); //COLLECTION RUN VEYA MONITOR YAPILDIGINDA BILDIRIM DUSMESI ICIN\r",
+											"\r",
+											"\r",
+											"console.log(\"Invalid Email Data set as \", pm.variables.get(\"invalid_Emails\"))\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE NEXT REQUEST\r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID DATA \r",
+											"\r",
+											"console.log(\"----------------PUT-SET_invEMAIL_Data_for_Physician ---------------\")\r",
+											"\r",
+											"const invalid_EmailsArr = \" ,,asd123@abccom,asd123@,.@abc.c,asd123abc\".split(); //WRITE YOUR INVALID ADRESS PARAMS HERE\r",
+											"\r",
+											"pm.variables.set(\"invalid_Emails\",invalid_EmailsArr) // to call and use params from next request, created a variable\r",
+											"\r",
+											"console.log(\"Invalid Email Adress Data ready to use : \" ,pm.variables.get(\"invalid_Emails\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"createdBy\": \"postman_team06\",\r\n    \"createdDate\": \"2024-02-12T13:24:17.081449Z\",\r\n    \"id\": 91612,\r\n    \"firstName\": \"jane\",\r\n    \"lastName\": \"deneme\",\r\n    \"birthDate\": \"2003-02-11T22:00:00Z\",\r\n    \"phone\": \"5520856395\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"' '\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-09T19:42:11.281761Z\",\r\n        \"id\": 90965,\r\n        \"login\": \"postman_team06\",\r\n        \"firstName\": \"jane\",\r\n        \"lastName\": \"austin\",\r\n        \"email\": \"petros.preston@farmoaks.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"009-88-7043\"\r\n    },\r\n    \"speciality\": \"SURGERY\",\r\n    \"appointments\": null,\r\n    \"country\": {\r\n        \"id\": 24331,\r\n        \"name\": \"turkiye\"\r\n    },\r\n    \"cstate\": null,\r\n    \"examFee\": 90.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/physicians",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvEMAIL_data_for_Physician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"console.log(\"kullanılan current email datası  \", pm.variables.get(\"current_Email\"))\r",
+											"\r",
+											"// Status Code validaiton\r",
+											"pm.test(\"Status code should not be 200 OK\",  () => {\r",
+											"    pm.response.to.not.have.status(200); \r",
+											"});\r",
+											"\r",
+											"// Content-Type Validation\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", ()=> {\r",
+											"    pm.expect(response).to.have.property('type');\r",
+											"    pm.expect(response).to.have.property('title');\r",
+											"    pm.expect(response).to.have.property('status');\r",
+											"    pm.expect(response).to.have.property('detail');\r",
+											"    pm.expect(response).to.have.property('path');\r",
+											"    pm.expect(response).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"//Response payload email field updated verification test\r",
+											"pm.test(\"Response Payload E-Mail field should be same with updated email adress \",()=> {\r",
+											"    pm.expect(response.email.toString()).to.equal(pm.variables.get(\"current_Email\"));\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"})\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE PREVIUS REQUEST\r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"\r",
+											"console.log(\" --------------------PUT-(M)_InvEMAIL_data_for_Physician --------------\")\r",
+											"\r",
+											"\r",
+											"const invalid_Emails = pm.variables.get(\"invalid_Emails\")\r",
+											"\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid Email data to verify...\")\r",
+											"console.log(\"invalid Email data are : \" , invalid_Emails)\r",
+											"\r",
+											"pm.variables.set('current_Email',invalid_Emails.shift()) // take the first element in array and return it.\r",
+											"console.log(\"current_Email is : \"+ pm.variables.get(\"current_Email\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0\r",
+											"if(Array.isArray(invalid_Emails) && invalid_Emails.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvEMAIL_data_for_Physician\") // defining next request to run again with differnt data\r",
+											"} else{\r",
+											"postman.setNextRequest(null);   // stop after executing current request -\r",
+											"postman.setNextRequest(\"AllPhysicians_NoParams\") // next request to run\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"createdBy\": \"postman_team06\",\r\n    \"createdDate\": \"2024-02-12T13:24:17.081449Z\",\r\n    \"id\": 91612,\r\n    \"firstName\": \"jane\",\r\n    \"lastName\": \"deneme\",\r\n    \"birthDate\": \"2003-02-11T22:00:00Z\",\r\n    \"phone\": \"5520856395\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"' '\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-09T19:42:11.281761Z\",\r\n        \"id\": 90965,\r\n        \"login\": \"postman_team06\",\r\n        \"firstName\": \"jane\",\r\n        \"lastName\": \"austin\",\r\n        \"email\": {{current_Email}},\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"009-88-7043\"\r\n    },\r\n    \"speciality\": \"SURGERY\",\r\n    \"appointments\": null,\r\n    \"country\": {\r\n        \"id\": 24331,\r\n        \"name\": \"turkiye\"\r\n    },\r\n    \"cstate\": null,\r\n    \"examFee\": 90.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/physicians",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"physicians"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AllPhysicians_NoParams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"const physiciansIdList = response.map(physicians => physicians.id);",
+									"",
+									"console.log('physiciansIdList = ', physiciansIdList)",
+									"",
+									"pm.variables.set('physicianID_length', physiciansIdList.length)",
+									"",
+									"console.log('all physician count in page  : ', physiciansIdList.length)",
+									"",
+									"//Status Code Validation",
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"//Content Type Validation",
+									"pm.test('Content-Type header is application/json', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+									"})",
+									"",
+									"pm.test('Response Body has the physicians', () => {",
+									"    pm.expect(physiciansIdList.length > 0).to.eql(true);",
+									"})",
+									"",
+									"//Each Physician body has required fields",
+									"pm.test(\"Each Physician body has required fields\", ()=> {",
+									"    pm.expect(response).to.be.an('array'); // validates the response whether an array or not",
+									"    for (let i = 0; i < response.length; i++) { ",
+									"        pm.expect(response[i]).to.be.an(\"object\"); ",
+									"        pm.expect(response[i]).to.have.property('id'); ",
+									"        pm.expect(response[i]).to.have.property('firstName'); ",
+									"        pm.expect(response[i]).to.have.property('lastName'); ",
+									"        pm.expect(response[i]).to.have.property('user'); ",
+									"        pm.expect(response[i]).to.have.property('examFee'); ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});",
+									"",
+									"pm.test(\"Body is a valid Json\",()=>{",
+									"    pm.response.to.be.json",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"console.log(\"-------------- GET AllPhysicians_NoParams ------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/physicians",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "physicians_page_size_QueryParams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const physicianIdList = response.map(physicians => physicians.id)\r",
+									"\r",
+									"\r",
+									"pm.variables.set(\"physicianIdList_Request1\",physicianIdList); //set a postman variable to use in the next request. We use local variable  \r",
+									"\r",
+									"\r",
+									"//status code test\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type Test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//size param test for this request\r",
+									"pm.test(\"Is size param as expected\", () => {\r",
+									"       pm.expect(physicianIdList.length).to.eql(pm.variables.get(\"size_param\"));\r",
+									"  });\r",
+									"\r",
+									"//Each Physician body has required fields\r",
+									"pm.test(\"Each Physician body has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array'); \r",
+									"    for (let i = 0; i < response.length; i++) { \r",
+									"        pm.expect(response[i]).to.be.an(\"object\"); \r",
+									"        pm.expect(response[i]).to.have.property('id'); \r",
+									"        pm.expect(response[i]).to.have.property('firstName'); \r",
+									"        pm.expect(response[i]).to.have.property('lastName'); \r",
+									"        pm.expect(response[i]).to.have.property('user'); \r",
+									"        pm.expect(response[i]).to.have.property('examFee'); \r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"---------------GET  physicians_page_size_QueryParams ------------------\")\r",
+									"// SET THE page PARAM FROM HERE \r",
+									"pm.variables.set(\"page_param\",1) \r",
+									"\r",
+									"// SET THE size PARAM FROM HERE \r",
+									"pm.variables.set(\"size_param\",10) \r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/physicians?page={{page_param}}&size={{size_param}}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page_param}}"
+								},
+								{
+									"key": "size",
+									"value": "{{size_param}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "physicians_page_size_params",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const physicianIdList = response.map(physicians => physicians.id) \r",
+									"\r",
+									"\r",
+									"pm.variables.set(\"physicianIdList_Request2\",physicianIdList); //set a postman variable to use in the next request. We use local variable\r",
+									"\r",
+									"\r",
+									"//status code validation\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//size param test\r",
+									"pm.test(\"Is size param as expected\", () => {\r",
+									"       pm.expect(physicianIdList.length).to.eql(pm.variables.get(\"size_param\"));\r",
+									"  });\r",
+									"\r",
+									"//Page test \r",
+									"pm.test(\"The responses in two different request should have different data\", () => {\r",
+									"       pm.expect(pm.variables.get(\"physicianIdList_Request1\")).to.not.eql(pm.variables.get(\"physicianIdList_Request2\"));\r",
+									"  });\r",
+									"\r",
+									"  //Each Physician body has required fields\r",
+									"pm.test(\"Each Physician body has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array'); \r",
+									"    for (let i = 0; i < response.length; i++) { \r",
+									"        pm.expect(response[i]).to.be.an(\"object\"); \r",
+									"        pm.expect(response[i]).to.have.property('id'); \r",
+									"        pm.expect(response[i]).to.have.property('firstName'); \r",
+									"        pm.expect(response[i]).to.have.property('lastName'); \r",
+									"        pm.expect(response[i]).to.have.property('user'); \r",
+									"        pm.expect(response[i]).to.have.property('examFee'); \r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------- GET physicians_page_size_params ----------------\")\r",
+									"\r",
+									"\r",
+									"// SET THE page PARAM FROM HERE - page parametresini buradan belirleyin\r",
+									"pm.variables.set(\"page_param\",2) \r",
+									"\r",
+									"// SET THE size PARAM FROM HERE - size parametresini buradan belirleyin\r",
+									"pm.variables.set(\"size_param\",20) "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/physicians?page={{page_param}}&size={{size_param}}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page_param}}"
+								},
+								{
+									"key": "size",
+									"value": "{{size_param}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "physicians_sort(asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"const physicianIdList = response.map(physicians => physicians.id)\r",
+									"console.log(\"physicianIdList unordered : \" , physicianIdList)\r",
+									"console.log(\"all physician count : \" , physicianIdList)\r",
+									"\r",
+									"const ascSortedIdList = physicianIdList.sort(function(a, b){return a - b}); \r",
+									"console.log(\"ascending sorted IDs : \",ascSortedIdList)\r",
+									"\r",
+									"//status code test\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type Test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//sort param ascending id test \r",
+									"pm.test(\"Are the ids in ascending order as expected \", () => {\r",
+									"       pm.expect(physicianIdList).to.eql(ascSortedIdList);\r",
+									"       pm.expect(physicianIdList.length).to.eql(ascSortedIdList.length)\r",
+									"  });\r",
+									"\r",
+									"pm.test(\"Response time is less than 200 ms\", ()=> {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});  \r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"---------------- GET physicians_sort(asc) -----------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/physicians?sort=id,asc",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "physicians_sort(desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"const physicianIdList = response.map(physicians => physicians.id);\r",
+									"console.log(\"physicianIdList unordered : \" , physicianIdList)\r",
+									"\r",
+									"const descSortedIdList = physicianIdList.sort(function(a, b){return b - a});\r",
+									"console.log(\"descending sorted IDs : \",descSortedIdList)\r",
+									"\r",
+									"//status code test\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type Test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//sort param ascending id test \r",
+									"pm.test(\"Are the ids in descending order as expected\", () => {\r",
+									"       pm.expect(physicianIdList).to.eql(descSortedIdList);\r",
+									"       pm.expect(physicianIdList.length).to.eql(descSortedIdList.length)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\" --------------- GET physicians_sort(desc) ------------------ \")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/physicians?sort=id,desc",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EXTRACT_5_ID_from_Physicians",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------- GET EXTRACT_5_ID_from_Physicians ---------------\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// RUN FROM COLLECTION RUNNER  WITH THE NEXT COLLECTION\r",
+									"// THİS REQUEST PREPARES 5 ID AS EXPECTED\r",
+									"const response = pm.response.json();\r",
+									"console.log(\"Extracting the first 5 physician id and assigning to an array\")\r",
+									"    \r",
+									"const idListFiveElements = response.slice(0,5).map(physicians => physicians.id) \r",
+									"  \r",
+									"  /*\r",
+									"    //  OR YOU CAN EXTRACT IDS WITH A LOOP\r",
+									"    const idListFiveElements = []; // \r",
+									"    for (let i = 0; i < 5; i++) {\r",
+									"        idListFiveElements.push(response[i].id); // adding the first 5 id to array\r",
+									"  }; \r",
+									"  */\r",
+									"  \r",
+									"console.log(\"idListFiveElements :\" ,idListFiveElements)\r",
+									"\r",
+									"// creating variable to use in the next request\r",
+									"pm.variables.set(\"idListFiveElements_alp\",idListFiveElements); \r",
+									"\r",
+									"pm.test(\"!!!! - 5 PHYSICIAN ID ARE READY TO USE - !!!!!\", ()=> {\r",
+									"    pm.expect(pm.variables.get(\"idListFiveElements_alp\").length).to.be.above(0);\r",
+									"}); \r",
+									"\r",
+									"/*\r",
+									"postman.setNextRequest(\"2b(M)_physicians_Verify_5_IDs_multiRun\")\r",
+									"*/"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// RUN FROM COLLECTION RUNNER  WITH THE NEXT COLLECTION\r\n// THİS REQUEST PREPARES 5 ID AS EXPECTED",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/physicians",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(M)physicians_Verify_5_IDs",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// RUN FROM COLLECTION RUNNER  WITH THE NEXT COLLECTION\r",
+									"// THİS REQUEST PREPARES 5 ID AS EXPECTED\r",
+									"\r",
+									"console.log(\" ----------------- GET (M)physicians_Verify_5_IDs ------------ \")\r",
+									"\r",
+									"\r",
+									"const physicianIds = pm.variables.get(\"idListFiveElements_alp\")\r",
+									"console.log(\"Multi Run Tests starts... Preparing physician ids to verify...\")\r",
+									"console.log(\"Physician IDs are \" , physicianIds)\r",
+									"\r",
+									"pm.variables.set('current_physicianID_alp',physicianIds.shift()) // take the first element in array and returns it. \r",
+									"\r",
+									"console.log(\"current physician ID = \"+pm.variables.get(\"current_physicianID_alp\"));\r",
+									"\r",
+									"// to be sure its an array and array length should be more than 0 \r",
+									"if(Array.isArray(physicianIds) && physicianIds.length > 0){\r",
+									"postman.setNextRequest(\"(M)physicians_Verify_5_IDs\") // defining next request to run again with different physician IDs\r",
+									"} else{\r",
+									"postman.setNextRequest(null);   // stop after executing current request -\r",
+									"postman.setNextRequest(\"Physician_Speciality\")\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// RUN FROM COLLECTION RUNNER  WITH THE PREVIOUS COLLECTION\r",
+									"// THIS REQUEST TAKES THE ID FROM ARRAY WE CREATED AND MAKE A REQUEST FOR THE ID\r",
+									"\r",
+									"//Status Code Validation\r",
+									"pm.test('Status code is 200 OK', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"// Content-Type Test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//property -user- validation \r",
+									"pm.test('Response body has user property', () => {\r",
+									"    pm.expect(pm.response.json()).to.have.property('user');\r",
+									"})\r",
+									"\r",
+									"\r",
+									"//id validation test\r",
+									"pm.test('Is the request return expected IDs data', () => {\r",
+									"    pm.expect(pm.response.json().id).to.eql(pm.variables.get('current_physicianID_alp'));\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Each Physician body has required fields\", ()=> {\r",
+									"    const response = pm.response.json(); \r",
+									"    pm.expect(response).to.be.an('object');  \r",
+									"    pm.expect(response).to.have.property('id'); \r",
+									"    pm.expect(response).to.have.property('firstName'); \r",
+									"    pm.expect(response).to.have.property('lastName'); \r",
+									"    pm.expect(response).to.have.property('user'); \r",
+									"    pm.expect(response).to.have.property('examFee'); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/physicians/{{current_physicianID_alp}}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"physicians",
+								"{{current_physicianID_alp}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Physician_Speciality",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response= pm.response.json()\r",
+									"\r",
+									"console.log(\"speciality field should be :\" , pm.collectionVariables.get(\"randomSpeciality_alp\"))\r",
+									"console.log(\"speciality field in response :\" , response.speciality)\r",
+									"\r",
+									"// Status Code Validation\r",
+									"pm.test(\"Status code is 200\",  ()=> {\r",
+									"    pm.response.to.have.status(200); //status code validation test\r",
+									"});\r",
+									"\r",
+									"//Content_Type Validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\",()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response payload speciality field updated verification test\r",
+									"pm.test(\"Response Payload speciality field updated \",()=> {\r",
+									"    pm.expect(response.speciality.toString()).to.equal(pm.collectionVariables.get(\"randomSpeciality_alp\"));\r",
+									"});\r",
+									"\r",
+									"//Response Payload  has required fields\r",
+									"pm.test(\"Response body has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an(\"object\"); \r",
+									"    pm.expect(response).to.have.property('id'); \r",
+									"    pm.expect(response).to.have.property('firstName'); \r",
+									"    pm.expect(response).to.have.property('lastName'); \r",
+									"    pm.expect(response).to.have.property('user'); \r",
+									"    pm.expect(response).to.have.property('examFee'); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------- PUT Physician_Speciality ----------\")\r",
+									"// Created an array which contains all speciality data from swagger\r",
+									"var specialities = [\"ALLERGY_IMMUNOLOGY\", \"ANESTHESIOLOGY\", \"DERMATOLOGY\", \"DIAGNOSTIC_RADIOLOGY\", \"EMERGENCY_MEDICINE\", \"FAMILY_MEDICINE\", \"INTERNAL_MEDICINE\", \"MEDICAL_GENETICS\", \"NEUROLOGY\", \"NUCLEAR_MEDICINE\", \"OBSTETRICS_GYNECOLOGY\", \"OPHTHALMOLOGY\", \"PATHOLOGY\", \"PEDIATRICS\", \"PHYSICALMEDICINE_REHABILITATION\", \"PREVENTIVE_MEDICINE\", \"PSYCHIATRY\", \"RADIATION_ONCOLOGY\", \"SURGERY\", \"UROLOGY\"];\r",
+									"console.log(\"specialities : \", specialities)\r",
+									"\r",
+									"var randomIndex = Math.floor(Math.random() * specialities.length);\r",
+									"var randomSpeciality = specialities[randomIndex];\r",
+									"pm.collectionVariables.set(\"randomSpeciality_alp\", randomSpeciality);\r",
+									"\r",
+									"\r",
+									"console.log(\"Random selected speciality field data : \" + randomSpeciality);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"createdBy\": \"adminasd\",\r\n    \"createdDate\": \"2024-02-13T12:27:37.972767Z\",\r\n    \"id\": 96426,\r\n    \"firstName\": \"AlparslanDR\",\r\n    \"lastName\": \"dotor\",\r\n    \"birthDate\": \"2000-01-01T06:00:00Z\",\r\n    \"phone\": \"222-222-2323\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"yeni_adress002\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-12T21:21:53.434689Z\",\r\n        \"id\": 93691,\r\n        \"login\": \"adminasd\",\r\n        \"firstName\": \"adminalparslan\",\r\n        \"lastName\": \"alparslan\",\r\n        \"email\": \"admin@gmail.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"856-79-1456\"\r\n    },\r\n    \"speciality\": \"{{randomSpeciality_alp}}\",\r\n    \"appointments\": null,\r\n    \"country\": null,\r\n    \"cstate\": null,\r\n    \"examFee\": 200.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/physicians",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"physicians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Physician_Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response= pm.response.json()\r",
+									"\r",
+									"console.log(\"Adress field should be :\" , pm.variables.get(\"randomAdress_alp\"))\r",
+									"console.log(\"Adress field in response :\" , response.adress)\r",
+									"\r",
+									"// Status Code Validation\r",
+									"pm.test(\"Status code is 200\",  ()=> {\r",
+									"    pm.response.to.have.status(200); //status code validation test\r",
+									"});\r",
+									"\r",
+									"//Content-Type Validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");// Content-Type Test\r",
+									"});\r",
+									"\r",
+									"//Response payload adress field updated Validation\r",
+									"pm.test(\"Response Payload adress field updated \",()=> {\r",
+									"    pm.expect(response.adress.toString()).to.equal(pm.collectionVariables.get(\"randomAdress_alp\"));\r",
+									"})\r",
+									"\r",
+									"//Response Payload  has required fields\r",
+									"pm.test(\"Response body has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an(\"object\"); \r",
+									"    pm.expect(response).to.have.property('adress');\r",
+									"    pm.expect(response).to.have.property('id'); \r",
+									"    pm.expect(response).to.have.property('firstName'); \r",
+									"    pm.expect(response).to.have.property('lastName'); \r",
+									"    pm.expect(response).to.have.property('user'); \r",
+									"    pm.expect(response).to.have.property('examFee'); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------- PUT Physician_Address ------------\")\r",
+									"// Created an array which contains random adress data  \r",
+									"var adresses = [\"İleride Alparslanın eivnin orada\", \"Alparslan'ın evinin ordan solda\", \"Alparslan mah. Alparslan apt. Alparslan:)\", \"Adress Alparslan\", \"Alparslan sehrinde Alparslan Kim:)\" ];\r",
+									"console.log(\"adresses : \", adresses)\r",
+									"\r",
+									"var randomIndex = Math.floor(Math.random() * adresses.length);\r",
+									"var randomAdress = adresses[randomIndex];\r",
+									"pm.collectionVariables.set(\"randomAdress_alp\", randomAdress);\r",
+									"\r",
+									"console.log(\"Random selected Adress field data : \" + randomAdress);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"createdBy\": \"adminasd\",\r\n    \"createdDate\": \"2024-02-13T12:27:37.972767Z\",\r\n    \"id\": 96426,\r\n    \"firstName\": \"AlparslanDR\",\r\n    \"lastName\": \"dotor\",\r\n    \"birthDate\": \"2000-01-01T06:00:00Z\",\r\n    \"phone\": \"222-222-2323\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"{{randomAdress_alp}}\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-12T21:21:53.434689Z\",\r\n        \"id\": 93691,\r\n        \"login\": \"adminasd\",\r\n        \"firstName\": \"adminalparslan\",\r\n        \"lastName\": \"alparslan\",\r\n        \"email\": \"admin@gmail.com\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"856-79-1456\"\r\n    },\r\n    \"speciality\": \"{{randomSpeciality_alp}}\",\r\n    \"appointments\": null,\r\n    \"country\": null,\r\n    \"cstate\": null,\r\n    \"examFee\": 200.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/physicians",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"physicians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Physician_Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response= pm.response.json()\r",
+									"\r",
+									"console.log(\"E-mail field should be :\" , pm.collectionVariables.get(\"randomEmail_alp\"))\r",
+									"console.log(\"E-mail field in response :\" , response.user.email)\r",
+									"pm.variables.set(\"updatedID\",response.id)\r",
+									"//Status Code Validation\r",
+									"pm.test(\"Status code is 200\",  ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content-Type Validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response payload email field updated validation\r",
+									"pm.test(\"Response Payload E-Mail field updated \",()=> {\r",
+									"    pm.expect(response.email.toString()).to.equal(pm.collectionVariables.get(\"randomEmail_alp\"));\r",
+									"})\r",
+									"\r",
+									"\r",
+									"//Response Payload  has required fields\r",
+									"pm.test(\"Response body has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an(\"object\"); \r",
+									"    pm.expect(response.user).to.have.property('email');\r",
+									"    pm.expect(response).to.have.property('id'); \r",
+									"    pm.expect(response).to.have.property('firstName'); \r",
+									"    pm.expect(response).to.have.property('lastName'); \r",
+									"    pm.expect(response).to.have.property('user'); \r",
+									"    pm.expect(response).to.have.property('examFee'); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------ PUT Physician_Email --------------\")\r",
+									"// create 10 random emails with a function \r",
+									"//You can also create random email with postman predefined variables - $randomEmail --\r",
+									"function generateEmails (num) {\r",
+									"  var emails = []; \r",
+									"  \r",
+									"  for (var i = 0; i < num; i++) {\r",
+									"    var name = Math.random().toString(36).substring(2, 10); \r",
+									"    var domain = Math.random().toString(36).substring(2, 6) + \".com\"; \r",
+									"    var email = \"alp_\" + name + \"@\" + domain;\r",
+									"    emails.push(email); \r",
+									"  }\r",
+									"  return emails;\r",
+									"}\r",
+									"\r",
+									"var emails = generateEmails(10);\r",
+									"console.log(emails);\r",
+									"\r",
+									"var randomIndex = Math.floor(Math.random() * emails.length);\r",
+									"var ramdomEmail = emails[randomIndex];\r",
+									"pm.collectionVariables.set(\"randomEmail_alp\", ramdomEmail);\r",
+									"\r",
+									"console.log(\"Random selected e-mail field data : \" + ramdomEmail);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"createdBy\": \"adminasd\",\r\n    \"createdDate\": \"2024-02-13T12:27:37.972767Z\",\r\n    \"id\": 96426,\r\n    \"firstName\": \"AlparslanDR\",\r\n    \"lastName\": \"dotor\",\r\n    \"birthDate\": \"2000-01-01T06:00:00Z\",\r\n    \"phone\": \"222-222-2323\",\r\n    \"gender\": \"MALE\",\r\n    \"bloodGroup\": \"Apositive\",\r\n    \"adress\": \"yeni_adress002\",\r\n    \"description\": \"\",\r\n    \"user\": {\r\n        \"createdBy\": \"anonymousUser\",\r\n        \"createdDate\": \"2024-02-12T21:21:53.434689Z\",\r\n        \"id\": 93691,\r\n        \"login\": \"adminasd\",\r\n        \"firstName\": \"adminalparslan\",\r\n        \"lastName\": \"alparslan\",\r\n        \"email\": \"{{randomEmail_alp}}\",\r\n        \"activated\": true,\r\n        \"langKey\": \"en\",\r\n        \"imageUrl\": null,\r\n        \"resetDate\": null,\r\n        \"ssn\": \"856-79-1456\"\r\n    },\r\n    \"speciality\": \"{{randomSpeciality_alp}}\",\r\n    \"appointments\": null,\r\n    \"country\": null,\r\n    \"cstate\": null,\r\n    \"examFee\": 200.00,\r\n    \"image\": \"\",\r\n    \"imageContentType\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/physicians",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"physicians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Physicians_Update_Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response= pm.response.json()\r",
+									"\r",
+									"//Status Code Validation\r",
+									"pm.test(\"Status code is 200\",  ()=> {\r",
+									"    pm.response.to.have.status(200); \r",
+									"});\r",
+									"\r",
+									"//Content-Type Validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Payload speciality field updated \",()=> {\r",
+									"    pm.expect(response.speciality.toString()).to.equal(pm.variables.get(\"randomSpeciality_alp\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Payload adress field updated \",()=> {\r",
+									"    pm.expect(response.adress.toString()).to.equal(pm.collectionVariables.get(\"randomAdress_alp\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Payload E-Mail field updated \",()=> {\r",
+									"    pm.expect(response.email.toString()).to.equal(pm.collectionVariables.get(\"randomEmail_alp\"));\r",
+									"});\r",
+									"\r",
+									"//Response Payload  has required fields\r",
+									"pm.test(\"Response body has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an(\"object\"); \r",
+									"    pm.expect(response).to.have.property('adress');\r",
+									"    pm.expect(response.user).to.have.property('email');\r",
+									"    pm.expect(response).to.have.property('speciality');\r",
+									"    pm.expect(response).to.have.property('id'); \r",
+									"    pm.expect(response).to.have.property('firstName'); \r",
+									"    pm.expect(response).to.have.property('lastName'); \r",
+									"    pm.expect(response).to.have.property('user'); \r",
+									"    pm.expect(response).to.have.property('examFee'); \r",
+									"  \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------- GET Physicians_Update_Check ------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/physicians/91612",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"physicians",
+								"91612"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Patient - Negative Tests",
+					"item": [
+						{
+							"name": "AllPatients_NoAuth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"//Status Code Validation",
+											"pm.test(\"Response status code is 40 Unauthorized\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// Content-Type Test",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");",
+											"});",
+											"",
+											"//Error message validation",
+											"pm.test(\"Is message in response as expected\", () => {",
+											"       pm.expect(response.message).to.eql(\"error.http.401\");",
+											"  });",
+											"",
+											"pm.test(\"Body is a valid Json\",()=>{",
+											"    pm.response.to.be.json",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"-------GET-AllPatients_NoAuth---------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patients",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_InvPAGE_query_for_patients",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r",
+											"// !! YOU CAN SET INVALID PAGE PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"console.log(\"----------- GET-SET_InvPAGE_query_for_patients ------------\")\r",
+											"\r",
+											"const inv_pageParams_arr = \"-1,73,90,x,abc,*,1234567890123456\".split(\",\"); //SET YOUR INVALID PARAMS FROM HERE\r",
+											"\r",
+											"pm.variables.set(\"inv_pageParams\",inv_pageParams_arr) // to call and use params from next request, created a variable\r",
+											"\r",
+											"console.log(\"Invalid page params ready to use : \" ,pm.variables.get(\"inv_pageParams\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r",
+											"// !! YOU CAN SET INVALID PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"//is not a test. just to make notification\r",
+											"pm.test(\"!!!! - INVALID PAGE PARAMS ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"inv_pageParams\").length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"console.log(\"Invalid page params set as \", pm.variables.get(\"inv_pageParams\"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/patients",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvPAGE_query_for_patients",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"console.log(\"-----------GET-(M)_InvPAGE_query_for_patients-------------\")\r",
+											"const inv_pageParams = pm.variables.get(\"inv_pageParams\")\r",
+											"\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid PAGE params to verify...\")\r",
+											"console.log(\"invalid size params are : \" , inv_pageParams)\r",
+											"\r",
+											"pm.variables.set('current_page_param',inv_pageParams.shift()) // take the first element in array and return it.\r",
+											"console.log(\"current_page_param : \"+ pm.variables.get(\"current_page_param\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0 \r",
+											"if(Array.isArray(inv_pageParams) && inv_pageParams.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvPAGE_query_for_patients\") \r",
+											"} else{\r",
+											"postman.setNextRequest(null); \r",
+											"postman.setNextRequest(\"SET_InvSIZE_query_for_patients\") \r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const response = pm.response.json();\r",
+											"const patientsIdList = response.map(patients => patients.id) \r",
+											"\r",
+											"console.log(\"Number of patients in response body  : \" , patientsIdList.length)\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test('Status code should not be 200 OK', () => {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is empty\", () => {\r",
+											"  pm.expect(pm.response.text()).to.be.empty;\r",
+											"});\r",
+											"\r",
+											"// Request URL contains \"page\" query Test \r",
+											"pm.test(\"Page parameter is correctly set in the request URL\", () => {\r",
+											"    pm.expect(pm.request.url.query.get(\"page\")).to.exist;\r",
+											"});\r",
+											"\r",
+											"    \r",
+											"var isNotNumber = isNaN(pm.request.url.query.get(\"page\"));\r",
+											"var isNegative = pm.request.url.query.get(\"page\") < 0;\r",
+											"if (isNotNumber || isNegative) {\r",
+											"    pm.test(\"Status code should not be 200 if size query param < 0 or it contain strings.\", () => {\r",
+											"        pm.expect(response.to.not.have.status(200));\r",
+											"        })\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/patients?page={{current_page_param}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "{{current_page_param}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SET_InvSIZE_query_for_patients",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST IS JUST TO CREATE INVALID SIZE PARAMS\r",
+											"// !! YOU CAN SET INVALID SIZE PARAMS FROM PRE-REQUEST\r",
+											"\r",
+											"console.log(\"----------GET--SET_InvSIZE_query_for_patients-------------\")\r",
+											"//max patient number in DB = 1712\r",
+											"let inv_sizeParams_arr = \"-1,0,xbc,+\".split(\",\"); //SET YOUR INVALID SIZE PARAMS HERE\r",
+											"\r",
+											"pm.variables.set(\"inv_sizeParams\",inv_sizeParams_arr);\r",
+											"\r",
+											"console.log(\"Invalid size params ready to use : \" , pm.variables.get(\"inv_sizeParams\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST \r",
+											"\r",
+											"pm.test(\"!!!! - INVALID SIZE PARAMS ARE READY TO USE - !!!!\", ()=> {\r",
+											"    pm.expect(pm.variables.get(\"inv_sizeParams\").length).to.be.above(0);\r",
+											"}); //COLLECTION RUN VEYA MONITOR YAPILDIGINDA BILDIRIM DUSMESI ICIN\r",
+											"\r",
+											"\r",
+											"console.log(\"Invalid size params set as \", pm.variables.get(\"inv_sizeParams\"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/patients",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(M)_InvSIZE_query_for_patients",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST IN THE PREVIOUS REQUEST\r",
+											"\r",
+											"console.log(\"-------------GET-(M)_InvSIZE_query_for_patients------------\")\r",
+											"const inv_sizeParams = pm.variables.get(\"inv_sizeParams\")\r",
+											"\r",
+											"console.log(\"Multi Run Tests starts...Preparing invalid SİZE params to verify...\")\r",
+											"console.log(\"invalid size params are : \" , inv_sizeParams)\r",
+											"\r",
+											"pm.variables.set('current_size_param',inv_sizeParams.shift()) // take the first element in array and return it.\r",
+											"console.log(\"current_size_param : \"+ pm.variables.get(\"current_size_param\"));\r",
+											"\r",
+											"// to be sure its an array and array length should be more than 0 \r",
+											"if(Array.isArray(inv_sizeParams) && inv_sizeParams.length > 0){\r",
+											"postman.setNextRequest(\"(M)_InvSIZE_query_for_patients\") \r",
+											"} else{\r",
+											"postman.setNextRequest(null);  \r",
+											"postman.setNextRequest(\"InvSIZE_query_for_patients\") \r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
+											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
+											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST IN THE PREVIOUS REQUEST\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"const patientsIDlist = response.map(patients => patients.id) \r",
+											"console.log(\"Number of patients in response body  : \" , patientsIDlist.length)\r",
+											"\r",
+											"/*\r",
+											"//status code test\r",
+											"pm.test('Status code should not be 200 OK', () => {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"*/\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should be empty\", () => {\r",
+											"  pm.expect(pm.response.text()).to.be.empty;\r",
+											"});\r",
+											"\r",
+											" console.log(\"Value of size query parameter\", pm.request.url.query.get(\"size\"))\r",
+											"//the count of patients should be same with query parameter value\r",
+											"pm.test(\"Number of patients should be same with query parameter value\", () => {\r",
+											"    pm.expect(pm.variables.get(\"current_size_param\")).to.eql(physiciansIdList.length);\r",
+											"});\r",
+											"\r",
+											"//Status Code\r",
+											"var isNotNumber = isNaN(pm.request.url.query.get(\"size\"));\r",
+											"var isNegative = pm.request.url.query.get(\"size\") <= 0;\r",
+											"if (isNotNumber || isNegative) {\r",
+											"    pm.test(\"Status code should not be 200 OK if size query param < 0 or it containS letters.\", () => {\r",
+											"        pm.expect(response.to.not.have.status(200));\r",
+											"        })\r",
+											"};\r",
+											"\r",
+											"if (pm.request.url.query.get(\"size\") > 1712) {\r",
+											"  pm.test(\"If size param is greater than 1712, number of patients in response should be 1712\", () => {\r",
+											"    pm.expect(physiciansIdList.length).to.equal(1712);\r",
+											"  });\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/patients?size={{current_size_param}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "{{current_size_param}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvSIZE_query_for_patients",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"console.log(\"-----------GET-InvSIZE_query_for_patients-----------\")\r",
+											"pm.variables.set(\"current_size_param\",12345678910)"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const response = pm.response.json();\r",
+											"const patientsIDlist = response.map(patients => patients.id) \r",
+											"\r",
+											"console.log(\"Number of patients in response body  : \" , patientsIDlist.length)\r",
+											"console.log(\"Query parameter is :\" ,pm.variables.get(\"current_size_param\"))\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test('Status code should not be 200 OK', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should not be empty\", () => {\r",
+											"  pm.expect(pm.response.text()).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"if (pm.request.url.query.get(\"size\") < 1712) {\r",
+											"//the count of patients should be same with query parameter value\r",
+											"    pm.test(\"Number of patients should be same with query parameter value\", () => {\r",
+											"        pm.expect(pm.variables.get(\"current_size_param\")).to.eql(physiciansIdList.length);\r",
+											"    })\r",
+											"};\r",
+											"\r",
+											"var isNotNumber = isNaN(pm.request.url.query.get(\"size\"));\r",
+											"var isNegative = pm.request.url.query.get(\"size\") < 0;\r",
+											"if (isNotNumber || isNegative) {\r",
+											"    pm.test(\"Status code should not be 200 if size query param < 0 or it contain letters.\", () => {\r",
+											"        pm.expect(response.to.not.have.status(200));\r",
+											"        })\r",
+											"    };\r",
+											"\r",
+											"if (pm.request.url.query.get(\"size\") > 1712) {\r",
+											"  pm.test(\"If size param is greater than 1712, number of patients in response should be 1712\", () => {\r",
+											"    pm.expect(physiciansIdList.length).to.equal(1712);\r",
+											"  });\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/patients?size={{current_size_param}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "{{current_size_param}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvSORT_query_for_patients",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"//Status Code Valdation\r",
+											"pm.test(\"Response status code is 500\", ()=> {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"//Response body properties check\r",
+											"pm.test(\"Response body has -type-, -title-, -status-, -detail-, -path-, -message- properties\", ()=> {\r",
+											"    pm.expect(response).to.be.an('object').that.has.all.keys('type', 'title', 'status', 'detail', 'path', 'message');\r",
+											"});\r",
+											"\r",
+											"//Error message validation\r",
+											"pm.test(\"Is message as expected\", () => {\r",
+											"       pm.expect(response.message).to.eql(\"error.http.500\");\r",
+											"  });\r",
+											"\r",
+											"pm.test('Is the detail in error response body as expected', () => {\r",
+											"    pm.expect(response.detail).to.include('No property idx found for type Patient!');\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------ GET-InvSORT_query_for_patients --------------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/patients?sort=idx,ASC",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "idx,ASC"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvDATES_query_for_DateFiltering",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test('Response status code is 400 Bad Request', () => {",
+											"    pm.response.to.have.status(400);",
+											"})",
+											"",
+											"// Content-Type Test",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");",
+											"});",
+											"",
+											"//Response body properties check",
+											"pm.test(\"Response body has has the required fields -type-, -title-, -status-, -detail-, -path-, -message- properties\", ()=> {",
+											"    pm.expect(response).to.be.an('object').that.has.all.keys('type', 'title', 'status', 'detail', 'path', 'message');",
+											"});",
+											"",
+											"pm.test('Is the detail in error response body as expected', () => {",
+											"    pm.expect(response.detail).to.include('Required LocalDate parameter');",
+											"})",
+											"",
+											"pm.test('Is message as expected', () => {",
+											"    pm.expect(response.message).to.eql('error.http.400');",
+											"});",
+											"",
+											"pm.test(\"Body is a valid Json\",()=>{",
+											"    pm.response.to.be.json",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------ GET-InvDATES_query_for_DateFiltering --------------------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/in-patients/bydate?startDate=2024-03-01&endDate=2024-03-30",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"in-patients",
+										"bydate"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2024-03-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2024-03-30"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AllPatients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"const patientsList = response.map(patients => patients.id) ",
+									"console.log(\"patients sayısı\", patientsList.length)",
+									"pm.collectionVariables.set(\"patientsID_list\",patientsList )",
+									"console.log(pm.collectionVariables.get(\"patientsID_list\"))",
+									"",
+									"//Status Code Validation",
+									"pm.test(\"Response status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"//Content-Type header test",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Each patient object has non-empty -firstName-, -lastName-, -id- and -phone- fields\", () => {",
+									"    pm.expect(response).to.be.an('array').that.is.not.empty;",
+									"    response.forEach((patient)=> {",
+									"        pm.expect(patient.firstName).to.exist.and.to.have.lengthOf.at.least(1, \"Firstname Value should not be empty\");",
+									"        pm.expect(patient.lastName).to.exist.and.to.have.lengthOf.at.least(1, \"Lastname Value should not be empty\");",
+									"        pm.expect(patient.id.toString()).to.exist.and.to.have.lengthOf.at.least(1, \"Id Value should not be empty\");",
+									"        pm.expect(patient.phone).to.exist.and.to.have.lengthOf.at.least(1, \"Phone Value should not be empty\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Patients should be listed\", ()=> {",
+									"    pm.expect(patientsList.length).to.be.above(0);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});",
+									"",
+									"pm.test(\"Body is a valid Json\",()=>{",
+									"    pm.response.to.be.json",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"-----------GET-AllPatients-----------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/patients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A_Patients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"//Status Code Validation",
+									"pm.test(\"Response status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"//Content-Type header test",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The Patient object has non-empty -firstName-, -lastName-, -id- and -phone- fields\", () => {",
+									"    pm.expect(response).to.not.be.empty;",
+									"    pm.expect(response.firstName).to.exist.and.to.have.lengthOf.at.least(1, \"Firstname Value should not be empty\");",
+									"    pm.expect(response.lastName).to.exist.and.to.have.lengthOf.at.least(1, \"Lastname Value should not be empty\");",
+									"    pm.expect(response.id.toString()).to.exist.and.to.have.lengthOf.at.least(1, \"Id Value should not be empty\");",
+									"    pm.expect(response.phone).to.exist.and.to.have.lengthOf.at.least(1, \"Phone Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response ID matches with the expected ID \", ()=> {",
+									"  pm.expect(response.id).to.equal(pm.variables.get(\"rndPatientID\"));",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});",
+									"",
+									"pm.test(\"Body is a valid Json\",()=>{",
+									"    pm.response.to.be.json",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Firstly, run the previous request (GET AllPatients) to get a random ID of a patient\r",
+									"\r",
+									"console.log(\"-----------GET- A_Patients -------------\")\r",
+									"\r",
+									"const patientsID_List = pm.collectionVariables.get(\"patientsID_list\");\r",
+									"const rndIndex = Math.floor(Math.random() * patientsID_List.length); \r",
+									"const rndPatientID = patientsID_List[rndIndex]; \r",
+									"pm.variables.set(\"rndPatientID\",rndPatientID)\r",
+									"console.log(\"randomly selected patient ID : \",rndPatientID); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/patients/{{rndPatientID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"{{rndPatientID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patients_page_query",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"--------- GET-Patients_page_query ---------------\")\r",
+									"var randomPageNUmber = Math.floor(Math.random() * 100+1);\r",
+									"pm.variables.set(\"query_page_number\",randomPageNUmber)\r",
+									"console.log(\"random number for page query\",pm.variables.get(\"query_page_number\") )"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response= pm.response.json()\r",
+									"\r",
+									"const patientsList = response.map(patients => patients.id)\r",
+									"\r",
+									"\r",
+									"//Verify Successfull Response\r",
+									"pm.test(\"successfull HTTP status code\",()=>{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"//Content-Type header test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Patients should be listed\", ()=> {\r",
+									"    pm.expect(patientsList.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"//Each Patient body has required fields\r",
+									"pm.test(\"Each Patients has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array'); \r",
+									"    for (let i = 0; i < response.length; i++) { \r",
+									"        pm.expect(response[i]).to.have.property('id');\r",
+									"        pm.expect(response[i]).to.have.property('firstName');\r",
+									"        pm.expect(response[i]).to.have.property('lastName');\r",
+									"        pm.expect(response[i].user).to.have.property('ssn');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/patients?page={{query_page_number}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{query_page_number}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patients_size_query",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"--------- GET-Patients_size_query -------------\")\r",
+									"pm.variables.set(\"first_Patients_id_in_page_five\",11607)\r",
+									"\r",
+									"var randomSizeNumber = Math.floor(Math.random() * 5+1);\r",
+									"pm.variables.set(\"query_size_number\",randomSizeNumber)\r",
+									"console.log(\"random number for size query\",pm.variables.get(\"query_size_number\") )"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response= pm.response.json()\r",
+									"\r",
+									"const patientsList = response.map(patients => patients.id)\r",
+									"\r",
+									"//Verify Successfull Response\r",
+									"pm.test(\"successfull HTTP status code 200 OK\",()=>{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"//Content-Type test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Patients should be listed and has same lenght with size query\", ()=> {\r",
+									"    pm.expect(patientsList.length).to.be.eql(pm.variables.get(\"query_size_number\"));\r",
+									"});\r",
+									"\r",
+									"//Each Patient body has required fields\r",
+									"pm.test(\"Each Patients has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array'); \r",
+									"    for (let i = 0; i < response.length; i++) { \r",
+									"        pm.expect(response[i]).to.have.property('id');\r",
+									"        pm.expect(response[i]).to.have.property('firstName');\r",
+									"        pm.expect(response[i]).to.have.property('lastName');\r",
+									"        pm.expect(response[i].user).to.have.property('ssn');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/patients?size={{query_size_number}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "{{query_size_number}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patients_sort(asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"const patientsIDList = response.map(patients => patients.id);\r",
+									"console.log(\"patientsIDList unordered : \" , patientsIDList);\r",
+									"console.log(\"all patients count : \" , patientsIDList.length);\r",
+									"\r",
+									"const ascSortedIdList = patientsIDList.sort(function(a, b){return a - b}); //sort patienr ids ascending \r",
+									"console.log(\"ascending sorted IDs : \",ascSortedIdList)\r",
+									"\r",
+									"\r",
+									"//asc param ascending id test \r",
+									"pm.test(\"Ascending sort param test\", () => {\r",
+									"       pm.expect(patientsIDList).to.eql(ascSortedIdList);\r",
+									"       pm.expect(patientsIDList.length).to.eql(ascSortedIdList.length)\r",
+									"  });\r",
+									"\r",
+									"//Status Code Test\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type Test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Each Patient body has required fields\r",
+									"pm.test(\"Each Patients has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array'); \r",
+									"    for (let i = 0; i < response.length; i++) { \r",
+									"        pm.expect(response[i]).to.have.property('id');\r",
+									"        pm.expect(response[i]).to.have.property('firstName');\r",
+									"        pm.expect(response[i]).to.have.property('lastName');\r",
+									"        pm.expect(response[i].user).to.have.property('ssn');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------- GET-Patients_sort(asc) -------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/patients?sort=id,asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patients_sort(desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"const patientsIdList = response.map(patients => patients.id)\r",
+									"console.log(\"patientsIdList unordered : \" , patientsIdList)\r",
+									"\r",
+									"const descSortedIdList = patientsIdList.sort(function(a, b){return b - a}); \r",
+									"console.log(\"descending sorted IDs : \",descSortedIdList)\r",
+									"\r",
+									"//Status Code test\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Content-Type Test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//sort param ascending id test \r",
+									"pm.test(\"Descending sort param test\", () => {\r",
+									"       pm.expect(patientsIdList).to.eql(descSortedIdList);\r",
+									"       pm.expect(patientsIdList.length).to.eql(descSortedIdList.length)\r",
+									"});\r",
+									"\r",
+									"//Each Patient body has required fields\r",
+									"pm.test(\"Each Patients has required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array'); \r",
+									"    for (let i = 0; i < response.length; i++) { \r",
+									"        pm.expect(response[i]).to.have.property('id');\r",
+									"        pm.expect(response[i]).to.have.property('firstName');\r",
+									"        pm.expect(response[i]).to.have.property('lastName');\r",
+									"        pm.expect(response[i].user).to.have.property('ssn');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------- GET-Patients_sort(desc) -------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/patients?sort=id,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patients_DateFiltering_futureDates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", ()=> {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Response body is  empty\",  ()=> {",
+									"    pm.expect(pm.response).to.be.empty;",
+									"});",
+									"",
+									"// Content-Type Test",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=>  {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Body is a valid Json\",()=>{",
+									"    pm.response.to.be.json",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------- GET-Patients_DateFiltering_futureDates -------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/in-patients/bydate?fromDate=2024-08-20&toDate=2024-09-25",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"in-patients",
+								"bydate"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2024-08-20"
+								},
+								{
+									"key": "toDate",
+									"value": "2024-09-25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patients_DateFiltering_DatesPassed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"const response = pm.response.json();",
+									"const patientsIdList = response.map(patients => patients.id)",
+									"",
+									"// Status Code Test",
+									"pm.test(\"Response status code is 200\", ()=> {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Content-Type Test",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"//Each Patient body has required fields",
+									"pm.test(\"Each Patients has required fields\", ()=> {",
+									"    pm.expect(response).to.be.an('array'); ",
+									"    for (let i = 0; i < response.length; i++) { ",
+									"        pm.expect(response[i]).to.have.property('id');",
+									"        pm.expect(response[i]).to.have.property('startDate');",
+									"        pm.expect(response[i]).to.have.property('status');",
+									"        pm.expect(response[i]).to.have.property('appointment');",
+									"        pm.expect(response[i].appointment).to.have.property('patient');",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Patients should be listed\", ()=> {",
+									"    pm.expect(patientsIdList.length).to.be.above(0);",
+									"});",
+									"",
+									"pm.test(\"Body is a valid Json\",()=>{",
+									"    pm.response.to.be.json",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------ GET-Patients_DateFiltering_DatesPassed -------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/in-patients/bydate?fromDate=2023-03-01&toDate=2023-03-30",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"in-patients",
+								"bydate"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2023-03-01"
+								},
+								{
+									"key": "toDate",
+									"value": "2023-03-30"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rooms_end2end",
+			"item": [
+				{
+					"name": "Rooms-Negative Tests",
+					"item": [
+						{
+							"name": "Rooms_NoAuth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status Code should be 401 Unauthorized', ()=> {\r",
+											"    pm.response.to.have.status(401);\r",
+											"})\r",
+											"\r",
+											"//Content-Type header test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"//Response body properties check\r",
+											"pm.test(\"Response body has required fields -type-, -title-, -status-, -detail-, -path-, -message- properties\", ()=> {\r",
+											"    pm.expect(response).to.be.an('object').that.has.all.keys('type', 'title', 'status', 'detail', 'path', 'message');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(' Are the properties has the data as expected and are in the expected data type', ()=> {\r",
+											"    pm.expect(response.status).to.be.a('number');\r",
+											"    pm.expect(response.title).to.be.a('string').and.to.have.lengthOf.at.least(1);\r",
+											"    pm.expect(response.detail).to.be.a('string').and.to.have.lengthOf.at.least(1);\r",
+											"    pm.expect(response.detail).to.include(\"authentication\");\r",
+											"    pm.expect(response.path).to.be.a('string').and.to.have.lengthOf.at.least(1);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------GET- Rooms_NoAuth -----------------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/Rooms",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"Rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room_NoAuth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.variables.set(\"roomId_alp\", response.id);\r",
+											"\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test(\"Status code is 401 Unauthorized\", ()=> {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"//Content-Type header test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											" //Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -title-,-message-, -status-, -detail- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(response.title).to.eql(\"Unauthorized\");\r",
+											"       pm.expect(response.message).to.eql(\"error.http.401\");\r",
+											"       pm.expect(response.status).to.eql(401);\r",
+											"       pm.expect(response.detail).to.include(\"Full authentication\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"---------POST-Room_NoAuth-------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"createdBy\": \"mark_twain\",\r\n  \"createdDate\": \"2024-02-12T19:28:51.656Z\",\r\n  \"description\": \"LüküsOda-This room was created by mehtapc\",\r\n  \"id\":\"\",\r\n  \"price\": 11120,\r\n  \"roomNumber\": {{\"roomNumber_alp\"}},\r\n  \"roomType\": \"TWIN\",\r\n  \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/rooms",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "NewRoom_to_get_RoomNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.variables.set('usedRoomNumber', response.roomNumber)\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test(\"Status code is 201 Created\", ()=> {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"//Content-Type header test\r",
+											"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"pm.test('Response body should have required fields', ()=> {\r",
+											"    pm.expect(pm.response.text()).to.include('roomNumber');\r",
+											"    pm.expect(pm.response.text()).to.include('roomType');\r",
+											"    pm.expect(pm.response.text()).to.include('id');\r",
+											"    pm.expect(pm.response.text()).to.include('status');\r",
+											"    pm.expect(pm.response.text()).to.include('createdBy');\r",
+											"    pm.expect(pm.response.text()).to.include('createdDate');\r",
+											"});\r",
+											"\r",
+											"pm.test('Price should be a non-negative number', ()=> {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.price).to.be.a('number');\r",
+											"    pm.expect(responseData.price).to.be.at.least(0);\r",
+											"});\r",
+											"\r",
+											"pm.test('RoomNumber is a positive integer', ()=> {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.roomNumber).to.exist.and.to.be.a('number').and.to.be.above(0, 'RoomNumber should be a positive integer');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"----------POST-NewRoom_to_get_RoomNumber------ \")\r",
+											"function generateRandomNumber() {\r",
+											"    return Math.floor(Math.random() * 90000) + 10000;\r",
+											"}\r",
+											"var randomNumber = generateRandomNumber();\r",
+											"pm.collectionVariables.set(\"rndRoomNumber\", randomNumber);\r",
+											"console.log(\"random created room number : \", pm.collectionVariables.get(\"rndRoomNumber\"))\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"createdBy\": \"mark_twain\",\r\n  \"createdDate\": \"2024-02-12T19:28:51.656Z\",\r\n  \"description\": \"created by team04\",\r\n  \"id\":\"\",\r\n  \"price\": 11120,\r\n  \"roomNumber\": \"{{rndRoomNumber}}\",\r\n  \"roomType\": \"TWIN\",\r\n  \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/rooms",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "NewRoom_With_aTaken(same)_RoomNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test(\"Status code should not be 200 Created\", ()=> {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"//Content-Type header test\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", ()=> {\r",
+											"    pm.expect(response).to.have.property('entityName');\r",
+											"    pm.expect(response).to.have.property('title');\r",
+											"    pm.expect(response).to.have.property('status');\r",
+											"    pm.expect(response).to.have.property('errorKey');\r",
+											"    pm.expect(response).to.have.property('params');\r",
+											" \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", ()=> {\r",
+											"    pm.expect(response.message).to.include(\"roominfoinconsistent\");\r",
+											" \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"--------POST-NewRoom_With_aTaken(same)_RoomNumber-------\")\r",
+											"console.log(\"Room Number which has used to create a room :\",pm.collectionVariables.get(\"rndRoomNumber\"))\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"createdBy\": \"mark_twain\",\r\n  \"createdDate\": \"2024-02-12T19:28:51.656Z\",\r\n  \"description\": \"created by team04\",\r\n  \"id\":\"\",\r\n  \"price\": 11120,\r\n  \"roomNumber\": \"{{rndRoomNumber}}\",\r\n  \"roomType\": \"TWIN\",\r\n  \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/rooms",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room_invRoomNumber",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------ POST-Room_invRoomNumber -------------\")"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Status Code Validation",
+											"pm.test(\"Status code is 400 Bad Request\", ()=> {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"//Content-Type header test",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");",
+											"});",
+											"",
+											" //Response Body Field-Property Test",
+											"pm.test(\"Response fields -title-,-message-, -status-, -detail- validation\", () => {",
+											"    const response = pm.response.json();",
+											"       pm.expect(response.title).to.eql(\"Bad Request\");",
+											"       pm.expect(response.message).to.eql(\"error.http.400\");",
+											"       pm.expect(response.status).to.eql(400);",
+											"       pm.expect(response.detail).to.include(\"JSON parse error\");",
+											"});",
+											"",
+											"pm.test(\"Body is a valid Json\",()=>{",
+											"    pm.response.to.be.json",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"createdBy\": \"mark_twain\",\r\n  \"createdDate\": \"2024-02-12T19:28:51.656Z\",\r\n  \"description\": \"this room created by mehtap c to test functionality\",\r\n  \"id\":1234,\r\n  \"price\": 11120,\r\n  \"roomNumber\": \"sad\",\r\n  \"roomType\": \"TWIN\",\r\n  \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rooms",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room_NoBody",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", ()=> {\r",
+											"  pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/problem+json\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", ()=> {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response).to.be.an('object');\r",
+											"    pm.expect(response).to.have.property('type');\r",
+											"    pm.expect(response).to.have.property('title');\r",
+											"    pm.expect(response).to.have.property('status');\r",
+											"    pm.expect(response).to.have.property('detail');\r",
+											"    pm.expect(response).to.have.property('path');\r",
+											"    pm.expect(response).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"-------------POST-Room_NoBody ------------- \")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/rooms",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room_NoAuth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"//Status Code Validation\r",
+											"pm.test(\"Status code is 401 Unauthorized\",  () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"// Content-Type Validation\r",
+											"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											" //Response Body Field-Property Test\r",
+											"pm.test(\"Response fields -title-,-message-, -status-, -detail- validation\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"       pm.expect(response.title).to.eql(\"Unauthorized\");\r",
+											"       pm.expect(response.message).to.eql(\"error.http.401\");\r",
+											"       pm.expect(response.status).to.eql(401);\r",
+											"       pm.expect(response.detail).to.include(\"Full authentication\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"----------DEL-Room_NoAuth-----------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/rooms/{{roomId_alp}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"{{roomId_alp}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room_invRoomID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", ()=> {\r",
+											"  pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/problem+json\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the required fields in the response\", ()=> {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.type).to.exist;\r",
+											"    pm.expect(responseData.title).to.exist;\r",
+											"    pm.expect(responseData.status).to.exist;\r",
+											"    pm.expect(responseData.detail).to.exist;\r",
+											"    pm.expect(responseData.path).to.exist;\r",
+											"    pm.expect(responseData.message).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is a valid Json\",()=>{\r",
+											"    pm.response.to.be.json\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"------------ DEL-Room_invRoomID ----------\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_alp}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/rooms/x",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"x"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AllRooms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" const response = pm.response.json();\r",
+									"\r",
+									"function generateRandomNumber() {\r",
+									"    return Math.floor(Math.random() * 90000) + 10000;\r",
+									"}\r",
+									"var randomNumber = generateRandomNumber();\r",
+									"pm.variables.set(\"roomNumber_alp\", randomNumber);\r",
+									"console.log(\"random created room number : \", pm.variables.get(\"roomNumber_alp\"))\r",
+									"\r",
+									"//Status Code Validation\r",
+									"pm.test(\"Verify status code is 200\", ()=> {\r",
+									"    pm.expect(pm.response.to.have.status(200));\r",
+									"});\r",
+									"\r",
+									"//Content-Type Validation\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Field types are as expected\", ()=> {\r",
+									"    pm.expect(response).to.be.an('array');\r",
+									"    response.forEach((room)=> {\r",
+									"        pm.expect(room.roomNumber).to.be.a('number');\r",
+									"        pm.expect(room.status).to.be.a('boolean');\r",
+									"        pm.expect(room.price).to.be.a('number');\r",
+									"        pm.expect(room.price).to.be.at.least(0)\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has -id-, -roomNumber-, -roomType-, -status-, -price-, -createdBy- properties\", ()=> { \r",
+									"    response.forEach((room)=> {\r",
+									"    pm.expect(room).to.have.property('id');\r",
+									"    pm.expect(room).to.have.property('roomNumber');\r",
+									"    pm.expect(room).to.have.property('roomType');\r",
+									"    pm.expect(room).to.have.property('status');\r",
+									"    pm.expect(room).to.have.property('price');\r",
+									"    pm.expect(room).to.have.property('createdBy');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------GET-AllRooms ---------- \")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/rooms",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateRoom",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"pm.variables.set('roomId_alp', response.id)",
+									"",
+									"//Status Code Validation",
+									"pm.test(\"Status code is 201 Created\", ()=> {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"//Content-Type Validation ",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response has the required fields\", ()=> {",
+									"    pm.expect(response).to.have.property('createdBy');",
+									"    pm.expect(response).to.have.property('createdDate');",
+									"    pm.expect(response).to.have.property('id');",
+									"    pm.expect(response).to.have.property('roomNumber');",
+									"    pm.expect(response).to.have.property('roomType');",
+									"    pm.expect(response).to.have.property('status');",
+									"    pm.expect(response).to.have.property('price');",
+									"    pm.expect(response).to.have.property('description');",
+									"});",
+									"",
+									"pm.test('Response has expected type of fields ', ()=> {",
+									"    pm.expect(response).to.be.an('object');",
+									"    pm.expect(response.price).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(response.createdBy).to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"    pm.expect(response.id).to.exist.and.to.be.a('number');",
+									"    pm.expect(response.roomNumber).to.exist.and.to.be.a('number');",
+									"    pm.expect(response.roomType).to.be.a('string').and.to.have.lengthOf.at.least(1, 'Room type should not be empty');",
+									"    pm.expect(response.status).to.be.a(\"boolean\");",
+									"    pm.expect(response.price).to.be.a(\"number\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});",
+									"",
+									"pm.test(\"Body is a valid Json\",()=>{",
+									"    pm.response.to.be.json",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"----------- POST-CreateRoom ------------\")\r",
+									"//create random number in order to create room \r",
+									"function generateRandomNumber() {\r",
+									"    return Math.floor(Math.random() * 90000) + 10000;\r",
+									"}\r",
+									"var randomNumber = generateRandomNumber();\r",
+									"pm.variables.set(\"roomNumber_alp\", randomNumber);\r",
+									"\r",
+									"// Create random room type function\r",
+									"function getRandomRoomType() {\r",
+									"    // Available room types\r",
+									"    const roomTypes = ['SUITE', 'DAYCARE', 'DELUXE', 'TWIN', 'PREMIUM_DELUXE'];\r",
+									"    const randomIndex = Math.floor(Math.random() * roomTypes.length);\r",
+									"    return roomTypes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"// Call the function to get a random room type and store it in a variable\r",
+									"const selectedRoomType = getRandomRoomType();\r",
+									"console.log(\"Selected room type before post a room \",selectedRoomType);\r",
+									"\r",
+									"// Convert selectedRoomType to a string and set the room type variable in Postman collection\r",
+									"pm.variables.set(\"roomType_alp\", selectedRoomType);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"createdBy\": \"adminasd\",\r\n  \"createdDate\": \"2024-02-12T19:28:51.656Z\",\r\n  \"description\": \"Room {{roomNumber_alp}} has been created by team01\",\r\n  \"id\":\"\",\r\n  \"price\": 1500,\r\n  \"roomNumber\": {{roomNumber_alp}},\r\n  \"roomType\": \"{{roomType_alp}}\",\r\n  \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/rooms",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreatedRoom",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Status Code Validation\r",
+									"pm.test(\"Status code is 200\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content-Type header test\r",
+									"pm.test(\"Content-Type header is 'application/json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"    const response = pm.response.json()\r",
+									"pm.test('Response has expected type of fields ', ()=> {\r",
+									"    pm.expect(response).to.be.an('object');\r",
+									"    pm.expect(response.price).to.be.a('number').and.to.be.at.least(0);\r",
+									"    pm.expect(response.createdBy).to.be.a('string').and.to.have.lengthOf.at.least(1);\r",
+									"    pm.expect(response.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(response.roomNumber).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(response.roomType).to.be.a('string').and.to.have.lengthOf.at.least(1, 'Room type should not be empty');\r",
+									"    pm.expect(response.status).to.be.a(\"boolean\");\r",
+									"    pm.expect(response.price).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", ()=> {\r",
+									"    pm.expect(response).to.be.an('object');\r",
+									"    pm.expect(response).to.include.all.keys('createdBy', 'createdDate', 'id', 'roomNumber', 'roomType', 'status', 'price', 'description');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"------------GET-CreatedRoom -------------\")\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/rooms/{{roomId_alp}}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"rooms",
+								"{{roomId_alp}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreatedRoom",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204 No Content\", ()=> {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is empty\", () => {\r",
+									"  pm.expect(pm.response.text()).to.be.empty;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"-------------- DEL-CreatedRoom ------------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/rooms/{{roomId_alp}}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"rooms",
+								"{{roomId_alp}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletedRoom",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Status Code Validation\r",
+									"pm.test(\"Status code is 404 Not Found\", ()=> {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"//Content-Type header test\r",
+									"pm.test(\"Content-Type header is 'application/problem+json'\", ()=> {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/problem+json\");\r",
+									"});\r",
+									"\r",
+									" //Response Body Field-Property Test\r",
+									"pm.test(\"Response fields -title-,-message-, -status-, -detail- validation\", () => {\r",
+									"    const response = pm.response.json();\r",
+									"       pm.expect(response.title).to.eql(\"Not Found\");\r",
+									"       pm.expect(response.message).to.eql(\"error.http.404\");\r",
+									"       pm.expect(response.status).to.eql(404);\r",
+									"       pm.expect(response.detail).to.eql(\"404 NOT_FOUND\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body is a valid Json\",()=>{\r",
+									"    pm.response.to.be.json\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"---------- GET-DeletedRoom ----------\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alp}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/rooms/{{roomId_alp}}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"rooms",
+								"{{roomId_alp}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username_alp",
+			"value": "adminAsd"
+		},
+		{
+			"key": "password_alp",
+			"value": "123456789"
+		},
+		{
+			"key": "invalidRandom_UserName_alp",
+			"value": ""
+		},
+		{
+			"key": "invalidRandom_Password_alp",
+			"value": ""
+		},
+		{
+			"key": "randomSpeciality_alp",
+			"value": ""
+		},
+		{
+			"key": "randomAdress_alp",
+			"value": ""
+		},
+		{
+			"key": "randomEmail_alp",
+			"value": ""
+		},
+		{
+			"key": "patientsID_list",
+			"value": ""
+		},
+		{
+			"key": "rndRoomNumber",
+			"value": ""
+		}
+	]
+}
