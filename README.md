@@ -11,11 +11,11 @@
 
 ---
 ###  <img align="left" alt="Coding" width="35" src="https://github.com/AlpArslan11/Books_API_Tests_PostmanCollection/assets/101150339/2363b8fd-5e6b-41e0-a602-4e43fa97cbe4"> Postman;
-#### * Created Positive Tests, Negative Tests and EndToEnd Test(
-##### -> User Gets the books list
-##### -> User Gets the book info 
-##### -> User Posts an order with bookId
-##### -> User Gets the order info 
+#### * Created 
+##### -> Positive Tests
+##### -> Negative Tests
+##### -> EndToEnd Test
+##### -> Smoke Test Suite Collection ()
 ##### -> User Patches (Updates)the order 
 ##### -> User Gets the updated order info 
 ##### -> User Deletes the order 
