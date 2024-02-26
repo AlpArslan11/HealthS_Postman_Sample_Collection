@@ -22,6 +22,7 @@
 #### * Asserted Status Code, Content-Type, Response Time and Response Body fields
 #### * Created variables using Postman Local Variables, QA Environment and Collection Environment. 
 #### * Executed smoke tests using Jenkins
+#### * Created bug reports.📃 There is an example of bug report below 
 
 
 ---
@@ -44,4 +45,7 @@
 ![5](https://github.com/AlpArslan11/HealthS_Postman_Sample_Collection/assets/101150339/7e85fbad-3f3e-4dd1-aa93-9f945d464722)
 ![6](https://github.com/AlpArslan11/HealthS_Postman_Sample_Collection/assets/101150339/cc9e7d77-4499-49f2-85b5-ee243a21803c)
 ![7](https://github.com/AlpArslan11/HealthS_Postman_Sample_Collection/assets/101150339/6a119a44-aec2-408d-b755-959cf6acdada)
+![8](https://github.com/AlpArslan11/HealthS_Postman_Sample_Collection/assets/101150339/ebb68a8e-7ef5-4c22-a351-3fba3fbe6238)
+![9](https://github.com/AlpArslan11/HealthS_Postman_Sample_Collection/assets/101150339/b950b011-19b7-4091-b9d7-dc74edd64dc4)
+
 
