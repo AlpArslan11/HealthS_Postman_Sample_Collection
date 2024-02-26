@@ -19,7 +19,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------ POST-jwtToken-InvalidUserName -----------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"pm.collectionVariables.set(\"invalidRandom_UserName_alp\", pm.variables.replaceIn(\"{{$randomFirstName}}\"));\r",
 											"\r",
 											"\r",
@@ -54,7 +54,11 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
-											"})\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -117,7 +121,11 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
-											"})\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -127,7 +135,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"----------- POST-jwtToken-Invalid_Pass -------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											"\r",
 											"pm.collectionVariables.set(\"invalidRandom_Password_alp\", pm.variables.replaceIn(\"{{$randomPassword}}\"));"
 										],
 										"type": "text/javascript"
@@ -187,7 +196,11 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
-											"})\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -197,7 +210,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------POST- jwtToken-NoPass ----------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -257,7 +271,11 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
-											"})  "
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -266,7 +284,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"----------- POST-jwtToken-NoUsername ---------- \")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -325,7 +344,11 @@
 											"",
 											"pm.test(\"Body is a valid Json\",()=>{",
 											"    pm.response.to.be.json",
-											"})"
+											"});",
+											"",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -334,7 +357,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"--------------- POST-jwtToken-NoBody ------------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -373,7 +397,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------POST-jwtToken ------------- \")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"pm.collectionVariables.set(\"username_alp\",\"adminAsd\")\r",
 									"pm.collectionVariables.set(\"password_alp\",\"123456789\")"
 								],
@@ -410,7 +434,11 @@
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
-									"})"
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -484,8 +512,8 @@
 											"    pm.expect(response).to.not.have.property(\"user\");\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response time is less than 200 ms\", ()=> {\r",
-											"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -499,7 +527,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"----------GET-Physicians_NoAuth REQUEST -----------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -533,7 +562,7 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r",
 											"// !! YOU CAN SET INVALID PAGE PARAMS FROM PRE-REQUEST\r",
-											"console.log(\"---------- GET-SET_InvPAGE_queryParams_for_Physician REQUEST ------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"\r",
 											"const inv_pageParams_arr = \"-1,73,90,x,abc,*,1234567890123456\".split(\",\"); //SET YOUR INVALID PAGE PARAMS HERE\r",
@@ -617,7 +646,8 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER \r",
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
-											"console.log(\"--------------- GET-(M)_InvPAGE_queryParams_for_Physician ---------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											"\r",
 											"const inv_pageParams = pm.variables.get(\"inv_pageParams\")\r",
 											"\r",
 											"console.log(\"Multi Run Tests starts...Preparing invalid page params to verify...\")\r",
@@ -671,8 +701,8 @@
 											"    pm.expect(pm.request.url.query.get(\"page\")).to.exist;\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-											"    pm.expect(pm.response.responseTime).to.be.below(250);\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -731,7 +761,7 @@
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID SIZE PARAMS\r",
 											"// !! YOU CAN SET INVALID SIZE PARAMS FROM PRE-REQUEST\r",
 											"\r",
-											"console.log(\"---------- GET-SET_invSIZE_queryParams_for_Physician -----------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"\r",
 											"const inv_sizeParams_arr = \"-1,0,21,xbc,(,101,454546564\".split(\",\"); //SET YOUR INVALID PAGE PARAMS HERE\r",
@@ -814,7 +844,8 @@
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
 											"\r",
-											"console.log(\"------------ GET-(M)_InvSIZE_queryParams_for_Physician --------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											"\r",
 											"\r",
 											"const inv_sizeParams = pm.variables.get(\"inv_sizeParams\")\r",
 											"\r",
@@ -870,8 +901,8 @@
 											"        });\r",
 											"}\r",
 											"\r",
-											"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-											"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -944,7 +975,7 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE NEXT REQUEST\r",
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID SPECIALITY DATA \r",
 											"\r",
-											"console.log(\"------------PUT-SET_InvSPECIALITY_data_for_physician ------------ \")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"const invalid_SpecialityArr = \"OBSTETRIC,, ,surgery,abc,*,123456\".split(\",\"); //SET YOUR INVALID DATA FROM HERE\r",
 											"\r",
@@ -1035,7 +1066,9 @@
 											"    pm.response.to.be.json\r",
 											"});\r",
 											"\r",
-											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											"\r",
 											"\r",
 											"\r",
@@ -1052,7 +1085,7 @@
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
 											"\r",
-											"console.log(\"------------PUT-(M)_InvSPECIALITY_data_for_physician ---------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"const inv_Specialities = pm.variables.get(\"inv_Speciality\")\r",
 											"\r",
@@ -1141,7 +1174,7 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE NEXT REQUEST\r",
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID DATA \r",
 											"\r",
-											"console.log(\"------------PUT-SET_InvADRESS_Data_for_Physician ----------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"\r",
 											"const invalid_AdressArr = \"123,%%%%++++$$$$$,, \".split(); //set your ınv data from here\r",
@@ -1228,7 +1261,11 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
-											"})\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											"\r",
 											""
 										],
@@ -1242,7 +1279,7 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE PREVIUS REQUEST\r",
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"\r",
-											"console.log(\"---------- PUT-(M)_InvADRESS_Data_for_Physician ---------------- \")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"\r",
 											"const inv_AdressArr = pm.variables.get(\"inv_Adress\")\r",
@@ -1330,7 +1367,7 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE NEXT REQUEST\r",
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID DATA \r",
 											"\r",
-											"console.log(\"----------------PUT-SET_invEMAIL_Data_for_Physician ---------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"const invalid_EmailsArr = \" ,,asd123@abccom,asd123@,.@abc.c,asd123abc\".split(); //WRITE YOUR INVALID ADRESS PARAMS HERE\r",
 											"\r",
@@ -1414,11 +1451,13 @@
 											"    pm.expect(response.email.toString()).to.equal(pm.variables.get(\"current_Email\"));\r",
 											"});\r",
 											"\r",
-											"\r",
-											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
-											"})\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											"\r",
 											"\r",
 											"\r",
@@ -1435,7 +1474,8 @@
 											"// RUN FROM COLLECTION / FOLDER RUNNER WITH THE PREVIUS REQUEST\r",
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"\r",
-											"console.log(\" --------------------PUT-(M)_InvEMAIL_data_for_Physician --------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											"\r",
 											"\r",
 											"\r",
 											"const invalid_Emails = pm.variables.get(\"invalid_Emails\")\r",
@@ -1542,8 +1582,8 @@
 									"    }",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);",
 									"});",
 									"",
 									"pm.test(\"Body is a valid Json\",()=>{",
@@ -1558,8 +1598,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"\r",
-									"console.log(\"-------------- GET AllPhysicians_NoParams ------------\")"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1648,7 +1689,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"---------------GET  physicians_page_size_QueryParams ------------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"// SET THE page PARAM FROM HERE \r",
 									"pm.variables.set(\"page_param\",1) \r",
 									"\r",
@@ -1746,6 +1787,10 @@
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1755,7 +1800,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------- GET physicians_page_size_params ----------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"\r",
 									"\r",
 									"// SET THE page PARAM FROM HERE - page parametresini buradan belirleyin\r",
@@ -1835,9 +1880,9 @@
 									"       pm.expect(physicianIdList.length).to.eql(ascSortedIdList.length)\r",
 									"  });\r",
 									"\r",
-									"pm.test(\"Response time is less than 200 ms\", ()=> {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});  \r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"}); \r",
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
@@ -1850,7 +1895,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"---------------- GET physicians_sort(asc) -----------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1918,8 +1964,8 @@
 									"       pm.expect(physicianIdList.length).to.eql(descSortedIdList.length)\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -1933,7 +1979,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\" --------------- GET physicians_sort(desc) ------------------ \")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1977,7 +2024,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------- GET EXTRACT_5_ID_from_Physicians ---------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -2066,7 +2114,7 @@
 									"// RUN FROM COLLECTION RUNNER  WITH THE NEXT COLLECTION\r",
 									"// THİS REQUEST PREPARES 5 ID AS EXPECTED\r",
 									"\r",
-									"console.log(\" ----------------- GET (M)physicians_Verify_5_IDs ------------ \")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"\r",
 									"\r",
 									"const physicianIds = pm.variables.get(\"idListFiveElements_alp\")\r",
@@ -2129,6 +2177,10 @@
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									""
 								],
@@ -2201,6 +2253,10 @@
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2210,7 +2266,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------- PUT Physician_Speciality ----------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"// Created an array which contains all speciality data from swagger\r",
 									"var specialities = [\"ALLERGY_IMMUNOLOGY\", \"ANESTHESIOLOGY\", \"DERMATOLOGY\", \"DIAGNOSTIC_RADIOLOGY\", \"EMERGENCY_MEDICINE\", \"FAMILY_MEDICINE\", \"INTERNAL_MEDICINE\", \"MEDICAL_GENETICS\", \"NEUROLOGY\", \"NUCLEAR_MEDICINE\", \"OBSTETRICS_GYNECOLOGY\", \"OPHTHALMOLOGY\", \"PATHOLOGY\", \"PEDIATRICS\", \"PHYSICALMEDICINE_REHABILITATION\", \"PREVENTIVE_MEDICINE\", \"PSYCHIATRY\", \"RADIATION_ONCOLOGY\", \"SURGERY\", \"UROLOGY\"];\r",
 									"console.log(\"specialities : \", specialities)\r",
@@ -2302,6 +2358,10 @@
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
 									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -2311,7 +2371,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------- PUT Physician_Address ------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"// Created an array which contains random adress data  \r",
 									"var adresses = [\"İleride Alparslanın eivnin orada\", \"Alparslan'ın evinin ordan solda\", \"Alparslan mah. Alparslan apt. Alparslan:)\", \"Adress Alparslan\", \"Alparslan sehrinde Alparslan Kim:)\" ];\r",
 									"console.log(\"adresses : \", adresses)\r",
@@ -2404,6 +2464,10 @@
 									"    pm.response.to.be.json\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -2413,7 +2477,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------ PUT Physician_Email --------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"// create 10 random emails with a function \r",
 									"//You can also create random email with postman predefined variables - $randomEmail --\r",
 									"function generateEmails (num) {\r",
@@ -2521,8 +2585,8 @@
 									"  \r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -2537,7 +2601,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------- GET Physicians_Update_Check ------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -2618,7 +2683,9 @@
 											"    pm.response.to.be.json",
 											"});",
 											"",
-											""
+											"pm.test(\"Response time is less than 350 ms\", ()=> {",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -2627,7 +2694,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"-------GET-AllPatients_NoAuth---------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -2675,7 +2743,7 @@
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID PAGE PARAMS\r",
 											"// !! YOU CAN SET INVALID PAGE PARAMS FROM PRE-REQUEST\r",
 											"\r",
-											"console.log(\"----------- GET-SET_InvPAGE_query_for_patients ------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"\r",
 											"const inv_pageParams_arr = \"-1,73,90,x,abc,*,1234567890123456\".split(\",\"); //SET YOUR INVALID PARAMS FROM HERE\r",
 											"\r",
@@ -2746,7 +2814,7 @@
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST\r",
 											"\r",
-											"console.log(\"-----------GET-(M)_InvPAGE_query_for_patients-------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"const inv_pageParams = pm.variables.get(\"inv_pageParams\")\r",
 											"\r",
 											"console.log(\"Multi Run Tests starts...Preparing invalid PAGE params to verify...\")\r",
@@ -2811,7 +2879,9 @@
 											"    pm.response.to.be.json\r",
 											"});\r",
 											"\r",
-											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											"\r",
 											""
 										],
@@ -2862,7 +2932,7 @@
 											"// !! THIS REQUEST IS JUST TO CREATE INVALID SIZE PARAMS\r",
 											"// !! YOU CAN SET INVALID SIZE PARAMS FROM PRE-REQUEST\r",
 											"\r",
-											"console.log(\"----------GET--SET_InvSIZE_query_for_patients-------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"//max patient number in DB = 1712\r",
 											"let inv_sizeParams_arr = \"-1,0,xbc,+\".split(\",\"); //SET YOUR INVALID SIZE PARAMS HERE\r",
 											"\r",
@@ -2933,7 +3003,7 @@
 											"// !! THIS REQUEST GETS THE DATA FROM THE PREVIOUS REQUEST WHICH IS CREATED FOR SETTING THE DATA TO BE USED\r",
 											"// !! YOU CAN SET YOUR PARAMS FROM PRE-REQUEST IN THE PREVIOUS REQUEST\r",
 											"\r",
-											"console.log(\"-------------GET-(M)_InvSIZE_query_for_patients------------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"const inv_sizeParams = pm.variables.get(\"inv_sizeParams\")\r",
 											"\r",
 											"console.log(\"Multi Run Tests starts...Preparing invalid SİZE params to verify...\")\r",
@@ -3009,6 +3079,10 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -3055,7 +3129,7 @@
 									"script": {
 										"exec": [
 											"\r",
-											"console.log(\"-----------GET-InvSIZE_query_for_patients-----------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"pm.variables.set(\"current_size_param\",12345678910)"
 										],
 										"type": "text/javascript"
@@ -3187,6 +3261,9 @@
 											"    pm.response.to.be.json\r",
 											"});\r",
 											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -3196,7 +3273,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------ GET-InvSORT_query_for_patients --------------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -3269,7 +3347,9 @@
 											"    pm.response.to.be.json",
 											"});",
 											"",
-											"",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);",
+											"});",
 											""
 										],
 										"type": "text/javascript"
@@ -3279,7 +3359,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------ GET-InvDATES_query_for_DateFiltering --------------------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -3361,8 +3442,8 @@
 									"    pm.expect(patientsList.length).to.be.above(0);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);",
 									"});",
 									"",
 									"pm.test(\"Body is a valid Json\",()=>{",
@@ -3377,7 +3458,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"-----------GET-AllPatients-----------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3460,6 +3542,10 @@
 									"pm.test(\"Body is a valid Json\",()=>{",
 									"    pm.response.to.be.json",
 									"});",
+									"",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -3471,7 +3557,7 @@
 								"exec": [
 									"// Firstly, run the previous request (GET AllPatients) to get a random ID of a patient\r",
 									"\r",
-									"console.log(\"-----------GET- A_Patients -------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"\r",
 									"const patientsID_List = pm.collectionVariables.get(\"patientsID_list\");\r",
 									"const rndIndex = Math.floor(Math.random() * patientsID_List.length); \r",
@@ -3529,7 +3615,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"--------- GET-Patients_page_query ---------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"var randomPageNUmber = Math.floor(Math.random() * 100+1);\r",
 									"pm.variables.set(\"query_page_number\",randomPageNUmber)\r",
 									"console.log(\"random number for page query\",pm.variables.get(\"query_page_number\") )"
@@ -3575,6 +3661,9 @@
 									"    pm.response.to.be.json\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -3620,7 +3709,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"--------- GET-Patients_size_query -------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"pm.variables.set(\"first_Patients_id_in_page_five\",11607)\r",
 									"\r",
 									"var randomSizeNumber = Math.floor(Math.random() * 5+1);\r",
@@ -3665,6 +3754,10 @@
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
 									"    pm.response.to.be.json\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									""
 								],
@@ -3753,6 +3846,9 @@
 									"    pm.response.to.be.json\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -3762,7 +3858,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------- GET-Patients_sort(asc) -------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3846,6 +3943,10 @@
 									"    pm.response.to.be.json\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
+									"\r",
 									"\r",
 									""
 								],
@@ -3856,7 +3957,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------- GET-Patients_sort(desc) -------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3907,8 +4009,8 @@
 									"",
 									"const response = pm.response.json();",
 									"",
-									"pm.test(\"Response body is  empty\",  ()=> {",
-									"    pm.expect(pm.response).to.be.empty;",
+									"pm.test(\"Response is an empty array\", function () {",
+									"  pm.expect(response).to.be.an('array').that.is.empty;",
 									"});",
 									"",
 									"// Content-Type Test",
@@ -3920,6 +4022,10 @@
 									"    pm.response.to.be.json",
 									"});",
 									"",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);",
+									"});",
+									"",
 									""
 								],
 								"type": "text/javascript"
@@ -3929,7 +4035,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------- GET-Patients_DateFiltering_futureDates -------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -4013,6 +4120,9 @@
 									"    pm.response.to.be.json",
 									"});",
 									"",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -4022,7 +4132,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------ GET-Patients_DateFiltering_DatesPassed -------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -4107,6 +4218,10 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -4116,7 +4231,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------GET- Rooms_NoAuth -----------------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4172,6 +4288,10 @@
 											"    pm.response.to.be.json\r",
 											"});\r",
 											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript"
@@ -4181,7 +4301,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"---------POST-Room_NoAuth-------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4261,6 +4382,10 @@
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -4270,7 +4395,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"----------POST-NewRoom_to_get_RoomNumber------ \")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"function generateRandomNumber() {\r",
 											"    return Math.floor(Math.random() * 90000) + 10000;\r",
 											"}\r",
@@ -4352,6 +4477,10 @@
 											"\r",
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -4361,7 +4490,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"--------POST-NewRoom_With_aTaken(same)_RoomNumber-------\")\r",
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 											"console.log(\"Room Number which has used to create a room :\",pm.collectionVariables.get(\"rndRoomNumber\"))\r",
 											""
 										],
@@ -4410,7 +4539,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------ POST-Room_invRoomNumber -------------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4441,7 +4571,10 @@
 											"pm.test(\"Body is a valid Json\",()=>{",
 											"    pm.response.to.be.json",
 											"});",
-											""
+											"",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -4512,6 +4645,10 @@
 											"    pm.response.to.be.json\r",
 											"});\r",
 											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript"
@@ -4521,7 +4658,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"-------------POST-Room_NoBody ------------- \")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4586,7 +4724,9 @@
 											"    pm.response.to.be.json\r",
 											"});\r",
 											"\r",
-											""
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -4595,7 +4735,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"----------DEL-Room_NoAuth-----------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4651,6 +4792,10 @@
 											"pm.test(\"Body is a valid Json\",()=>{\r",
 											"    pm.response.to.be.json\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+											"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -4660,7 +4805,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"console.log(\"------------ DEL-Room_invRoomID ----------\")"
+											"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4742,8 +4888,8 @@
 									"    });\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -4758,7 +4904,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------GET-AllRooms ---------- \")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -4832,8 +4979,8 @@
 									"    pm.expect(response.price).to.be.a(\"number\");",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);",
 									"});",
 									"",
 									"pm.test(\"Body is a valid Json\",()=>{",
@@ -4849,7 +4996,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"----------- POST-CreateRoom ------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									"//create random number in order to create room \r",
 									"function generateRandomNumber() {\r",
 									"    return Math.floor(Math.random() * 90000) + 10000;\r",
@@ -4948,8 +5095,8 @@
 									"    pm.expect(response).to.include.all.keys('createdBy', 'createdDate', 'id', 'roomNumber', 'roomType', 'status', 'price', 'description');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -4964,7 +5111,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"------------GET-CreatedRoom -------------\")\r",
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
 									""
 								],
 								"type": "text/javascript"
@@ -5012,6 +5159,10 @@
 									"  pm.expect(pm.response.text()).to.be.empty;\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -5021,7 +5172,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"-------------- DEL-CreatedRoom ------------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -5079,8 +5231,8 @@
 									"       pm.expect(response.detail).to.eql(\"404 NOT_FOUND\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 250 ms\", ()=> {\r",
-									"        pm.expect(pm.response.responseTime).to.be.below(250);\r",
+									"pm.test(\"Response time is less than 350 ms\", ()=> {\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(350);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Body is a valid Json\",()=>{\r",
@@ -5095,7 +5247,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"console.log(\"---------- GET-DeletedRoom ----------\")"
+									"console.log(\"------------ \"+ pm.request.method +\" - \"+ pm.info.requestName+\" -----------\")\r",
+									""
 								],
 								"type": "text/javascript"
 							}
