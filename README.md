@@ -30,7 +30,7 @@
 #### Generated Htmlextra Report 
 
 ---
-### <img align="left" alt="Coding" width="70" src="https://github.com/AlpArslan11/Books_API_Tests_PostmanCollection/assets/101150339/c85c752a-bfb7-4b2d-a41b-e2a2bfb91494"> Automated Newman with Jenkins and sent the reports via mail - Newman with Jenkins
+### <img align="left" alt="Coding" width="70" src="https://github.com/AlpArslan11/Books_API_Tests_PostmanCollection/assets/101150339/c85c752a-bfb7-4b2d-a41b-e2a2bfb91494"> Newman with Jenkins
 ####  Created a FreeStyle project and configured it 
 ####  Configured job to build periodically. 
 ####  Sent the Build Log and HtmlExtra Report after each Build.
