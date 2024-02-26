@@ -732,10 +732,10 @@
 									"\r",
 									"// to be sure its an array and array length should be more than 0 \r",
 									"if(Array.isArray(physicianIds) && physicianIds.length > 0){\r",
-									"postman.setNextRequest(\"(M)physicians_Verify_5_IDs\") // defining next request to run again with different physician IDs\r",
+									"postman.setNextRequest(pm.info.requestName) // defining next request to run again with different physician IDs\r",
 									"} else{\r",
 									"postman.setNextRequest(null);   // stop after executing current request -\r",
-									"postman.setNextRequest(\"Physician_Speciality\")\r",
+									"postman.setNextRequest(\"AllPatients_NoAuth\")\r",
 									"}\r",
 									""
 								],
